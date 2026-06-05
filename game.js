@@ -272,10 +272,10 @@ const recipes = [
     onCraft: () => { state.crafted.rocketMk3 = true; toast('🧊 Frost Rocket Mk.3 assembled!', true); },
   },
   {
-    id: 'atomFarm', icon: '⚛️', name: 'Atom Farm', category: 'science',
-    desc: 'Generates ⚛️ Atoms over time. Only buildable after visiting the Quantum Realm.',
+    id: 'atomFarm', icon: '☢️', name: 'Atom Farm', category: 'science',
+    desc: 'Generates ☢️ Atoms over time. Only buildable after visiting the Quantum Realm.',
     cost: { carrots: 500000, iron: 80, research: 1500 }, oneTime: false, maxOwned: 8,
-    requires: ['quantumTravel'],
+    requires: ['quantumVisited'],
   },
   {
     id: 'glacioObservatory', icon: '🌌', name: 'Glacio Observatory', category: 'farming',
@@ -1242,7 +1242,13 @@ function render() {
   $('launch-btn').classList.toggle('hidden', !(state.crafted.rocketMk1 && !state.reachedMoon));
   $('launch-mars-btn').classList.toggle('hidden', !(state.crafted.rocketMk2 && !state.reachedMars));
   $('launch-glacio-btn').classList.toggle('hidden', !(state.crafted.rocketMk3 && !state.reachedGlacio));
-  $('quantum-btn').classList.toggle('hidden', !hasResearch('quantumTravel'));
+  const qbtn = $('quantum-btn');
+  qbtn.classList.toggle('hidden', !hasResearch('quantumTravel'));
+  if (state.dimensionsVisited && state.dimensionsVisited.quantum) {
+    if (qbtn.textContent !== '⚛️ Re-enter Quantum Realm ⚛️') qbtn.textContent = '⚛️ Re-enter Quantum Realm ⚛️';
+  } else {
+    if (qbtn.textContent !== '⚛️ Enter Quantum Realm ⚛️') qbtn.textContent = '⚛️ Enter Quantum Realm ⚛️';
+  }
   $('pill-atoms').classList.toggle('hidden', state.atoms === 0 && !hasResearch('quantumTravel'));
   $('atoms').textContent = fmt(state.atoms);
 
@@ -1557,6 +1563,7 @@ function meetsRequires(reqs) {
     if (r === 'allAccelPartsBuilt' && partsBuiltCount() >= 100) continue;
     if (r === 'dimension_invincible' && state.dimension === 'invincible') continue;
     if (r === 'reachedGlacio' && state.reachedGlacio) continue;
+    if (r === 'quantumVisited' && state.dimensionsVisited && state.dimensionsVisited.quantum) continue;
     return false;
   }
   return true;
@@ -1564,7 +1571,7 @@ function meetsRequires(reqs) {
 function costString(cost) {
   const icons = { carrots: '🥕', scrap: '🔩', fuel: '⛽', research: '🔬', iron: '⛓️',
                   moondust: '🌙', starFragments: '✨',
-                  quarks: '⚛️', antimatter: '🟣', singularity: '🕳️', atoms: '⚛️',
+                  quarks: '⚛️', antimatter: '🟣', singularity: '🕳️', atoms: '☢️',
                   red: '🔴', blue: '🔵', green: '🟢', yellow: '🟡', mars: '🟥', glory: '⭐' };
   return Object.entries(cost).map(([k, v]) => `${icons[k] || ''} ${fmt(v)}`).join('  ');
 }
@@ -1735,6 +1742,7 @@ function prettyName(id) {
     reachedMoon: 'Reach the Moon',
     reachedMars: 'Reach Mars',
     reachedGlacio: 'Reach Glacio',
+    quantumVisited: 'Enter the Quantum Realm',
     allAccelPartsBuilt: 'Build all 100 accelerator parts',
     dimension_invincible: 'Cross into the Invincible Dimension',
   };
@@ -3200,7 +3208,7 @@ function launchGlacio() {
   launchSeq('🧊', 5000, () => {
     state.reachedGlacio = true;
     state.atoms += 30;
-    toast('🧊 You reached Glacio! +30 Atoms. Everything +90%! Build Ice Gardens.', true);
+    toast('🧊 You reached Glacio! +30 ☢️ Atoms. Everything +90%! Build Ice Gardens.', true);
     checkAchievements();
     updateBodyClasses();
     render(); save();
