@@ -13,6 +13,16 @@ body.moon-mode {
 body.mars-mode {
   background: linear-gradient(180deg, #100404 0%, #200808 40%, #401818 100%);
 }
+body.glacio-mode {
+  background: linear-gradient(180deg, #04101a 0%, #0e2440 45%, #2a5a8a 100%);
+}
+body.glacio-mode #bg-particles {
+  background-image:
+    radial-gradient(circle at 14% 28%, rgba(160,220,255,0.18) 0, transparent 70px),
+    radial-gradient(circle at 78% 60%, rgba(200,240,255,0.14) 0, transparent 80px),
+    radial-gradient(circle at 50% 85%, rgba(120,200,255,0.12) 0, transparent 70px);
+  opacity: 1;
+}
 #bg-particles {
   position: fixed; inset: 0; pointer-events: none; z-index: 0;
   background-image:
@@ -227,6 +237,32 @@ main {
   box-shadow: 0 4px 14px rgba(255,80,40,0.5);
 }
 #launch-mars-btn:hover { filter: brightness(1.1); }
+#launch-glacio-btn {
+  margin-top: 10px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #4a90c0, #a0d8ff);
+  border: none;
+  border-radius: 10px;
+  color: #0a1226;
+  font-weight: bold;
+  font-size: 1em;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(80,180,255,0.5);
+}
+#launch-glacio-btn:hover { filter: brightness(1.1); }
+#quantum-btn {
+  margin-top: 10px;
+  padding: 10px 22px;
+  background: linear-gradient(135deg, #6a2e8e, #c870ff);
+  border: 1px solid #d0a0ff;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 0.95em;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(180,80,255,0.5);
+}
+#quantum-btn:hover { filter: brightness(1.12); }
 
 /* ===== Secondary systems grid ===== */
 /* Wraps the Rocket Station, DNA Sequencer, Particle Accelerator, and Buddy in

@@ -60,6 +60,10 @@ const clickUpgrades = [
   { id: 'cu10',  tier: 'mars', icon: '🌋', name: 'Red Storm',     desc: '+7,000 per click',  baseCost: 120000000, growth: 1.42, power: 7000,  max: 20, requires: ['reachedMars'] },
   { id: 'cu_r2', tier: 'mars', icon: '⚡', name: 'Magma Fist',    desc: '+15,000 per click', baseCost: 300000000, growth: 1.43, power: 15000, max: 18, requires: ['reachedMars'] },
   { id: 'cu_r3', tier: 'mars', icon: '🛡️', name: 'Iron Knuckle',  desc: '+30,000 per click', baseCost: 700000000, growth: 1.44, power: 30000, max: 18, requires: ['terraforming'] },
+  // --- GLACIO ---
+  { id: 'cu_g1', tier: 'glacio', icon: '❄️', name: 'Frost Punch',    desc: '+80,000 per click',  baseCost: 9e10,  growth: 1.42, power: 80000,    max: 25, requires: ['reachedGlacio'] },
+  { id: 'cu_g2', tier: 'glacio', icon: '🧊', name: 'Ice Spear',      desc: '+250,000 per click', baseCost: 6e11,  growth: 1.44, power: 250000,   max: 22, requires: ['reachedGlacio'] },
+  { id: 'cu_g3', tier: 'glacio', icon: '🥶', name: 'Cryo Smash',     desc: '+800,000 per click', baseCost: 4e12,  growth: 1.46, power: 800000,   max: 20, requires: ['reachedGlacio'] },
   // --- COSMIC ---
   { id: 'cu11', tier: 'cosmic', icon: '⭐', name: 'Star Slam',     desc: '+10,000 per click', baseCost: 1500000000,  growth: 1.45, power: 10000,  max: 15, requires: ['quantumComputing'] },
   { id: 'cu12', tier: 'cosmic', icon: '🌌', name: 'Galaxy Punch',  desc: '+40,000 per click', baseCost: 25000000000, growth: 1.50, power: 40000,  max: 12, requires: ['quantumComputing'] },
@@ -99,6 +103,10 @@ const autoUpgrades = [
   { id: 'au10',  tier: 'mars', icon: '🦜', name: 'Mars Crow',        desc: '+5,000/sec',  baseCost: 250000000,  growth: 1.42, power: 5000,   max: 22, requires: ['reachedMars'] },
   { id: 'au_r3', tier: 'mars', icon: '🌑', name: 'Phobos Pet',       desc: '+8,000/sec',  baseCost: 450000000,  growth: 1.43, power: 8000,   max: 22, requires: ['terraforming'] },
   { id: 'au_r4', tier: 'mars', icon: '🛰️', name: 'Deimos Drone',     desc: '+14,000/sec', baseCost: 900000000,  growth: 1.44, power: 14000,  max: 20, requires: ['terraforming'] },
+  // --- GLACIO ---
+  { id: 'au_g1', tier: 'glacio', icon: '🐧', name: 'Penguin',        desc: '+100,000/sec',  baseCost: 1e11,  growth: 1.42, power: 100000,  max: 30, requires: ['reachedGlacio'] },
+  { id: 'au_g2', tier: 'glacio', icon: '🐻‍❄️', name: 'Polar Bear',    desc: '+350,000/sec',  baseCost: 7e11,  growth: 1.44, power: 350000,  max: 25, requires: ['reachedGlacio'] },
+  { id: 'au_g3', tier: 'glacio', icon: '🦭', name: 'Seal Pup',       desc: '+1,200,000/sec',baseCost: 5e12,  growth: 1.46, power: 1200000, max: 22, requires: ['reachedGlacio'] },
   // --- COSMIC ---
   { id: 'au11', tier: 'cosmic', icon: '🔥', name: 'Phoenix',          desc: '+12,000/sec', baseCost: 3000000000,  growth: 1.45, power: 12000, max: 18, requires: ['quantumComputing'] },
   { id: 'au12', tier: 'cosmic', icon: '🐉', name: 'Dragon',           desc: '+50,000/sec', baseCost: 40000000000, growth: 1.50, power: 50000, max: 15, requires: ['quantumComputing'] },
@@ -114,6 +122,7 @@ const upgradeTiers = [
   { id: 'earth',     name: '🌍 Earth' },
   { id: 'moon',      name: '🌙 Moon' },
   { id: 'mars',      name: '🔴 Mars' },
+  { id: 'glacio',    name: '🧊 Glacio' },
   { id: 'cosmic',    name: '🌌 Cosmic' },
   { id: 'invincible',name: '🌀 Invincible' },
 ];
@@ -254,6 +263,31 @@ const recipes = [
     cost: { carrots: 250000, scrap: 500, fuel: 250, iron: 60 }, oneTime: true,
     requires: ['advancedRocketry', 'marsTrajectory'],
     onCraft: () => { state.crafted.rocketMk2 = true; toast('🚀 Big Rocket built!', true); },
+  },
+  {
+    id: 'rocketMk3', icon: '🧊', name: 'Frost Rocket Mk.3', category: 'rockets',
+    desc: 'Cold-rated rocket required to fly to Glacio.',
+    cost: { carrots: 2000000, scrap: 1500, fuel: 800, iron: 300, atoms: 25 }, oneTime: true,
+    requires: ['belowZeroProtection', 'reachedMars'],
+    onCraft: () => { state.crafted.rocketMk3 = true; toast('🧊 Frost Rocket Mk.3 assembled!', true); },
+  },
+  {
+    id: 'atomFarm', icon: '⚛️', name: 'Atom Farm', category: 'science',
+    desc: 'Generates ⚛️ Atoms over time. Only buildable after visiting the Quantum Realm.',
+    cost: { carrots: 500000, iron: 80, research: 1500 }, oneTime: false, maxOwned: 8,
+    requires: ['quantumTravel'],
+  },
+  {
+    id: 'glacioObservatory', icon: '🌌', name: 'Glacio Observatory', category: 'farming',
+    desc: 'Frozen telescope. +25% global multiplier each.',
+    cost: { carrots: 8000000, iron: 1500, atoms: 10 }, oneTime: false, maxOwned: 5,
+    requires: ['reachedGlacio'],
+  },
+  {
+    id: 'iceGarden', icon: '❄️', name: 'Ice Garden', category: 'farming',
+    desc: 'Grows frost carrots. +900 carrots/sec each.',
+    cost: { carrots: 12000000, iron: 800, atoms: 5 }, oneTime: false, maxOwned: 15,
+    requires: ['reachedGlacio'],
   },
 
   // --- FARMING ---
@@ -472,6 +506,8 @@ const skins = [
   { id: 'default',    name: 'Pancake Bunny',  desc: 'The original.',                                src: 'bunny.png',           condition: () => true },
   { id: 'cartoon',    name: 'Cartoon Bunny',  desc: 'Unlocked by building the Particle Accelerator.', src: 'bunny_cartoon.png',   condition: () => !!state.crafted.particleAccelerator },
   { id: 'invincible', name: 'Invincible Bunny', desc: 'Unlocked by crossing into the Invincible Dimension.', src: 'bunny_invincible.png', condition: () => state.dimensionsVisited && state.dimensionsVisited.invincible },
+  { id: 'butterDawg', name: 'Butter Dawg',  desc: 'Unlocked by entering the Quantum Realm.',          src: 'bunny_butterdawg.png', condition: () => state.dimensionsVisited && state.dimensionsVisited.quantum },
+  { id: 'spaceBunny', name: 'Space Bunny',  desc: 'Unlocked by reaching the frost planet Glacio.',     src: 'bunny_space.png',     condition: () => !!state.reachedGlacio },
 ];
 function checkSkinUnlocks() {
   let unlockedAny = false;
@@ -574,6 +610,12 @@ const researchNodes = [
   { id: 'starCharting', tier: 4, icon: '🌠', name: 'Star Maps',
     desc: 'Prestige gives +50% more Star Bits.',
     cost: 4000, requires: ['reachedMars'] },
+  { id: 'quantumTravel', tier: 4, icon: '⚛️', name: 'Quantum Travel',
+    desc: 'Shrink to a sub-atomic universe. Unlocks the Quantum Realm and the Atom Farm recipe.',
+    cost: 6000, requires: ['quantumComputing'] },
+  { id: 'belowZeroProtection', tier: 4, icon: '🥶', name: 'Below Zero Protection',
+    desc: 'Engineer a cold-rated rocket. Required for Rocket Mk.3 (Glacio launch).',
+    cost: 8000, requires: ['quantumTravel'] },
   { id: 'areology', tier: 4, icon: '📜', name: 'Areology',
     desc: 'All Mars buildings & farms +30%.',
     cost: 3500, requires: ['reachedMars'] },
@@ -649,6 +691,10 @@ const achievements = [
   { id: 'a38', icon: '🦾', name: 'Iron Wrist',     desc: 'Sustain 300 clicks per minute',    check: s => getCPM() >= 300 },
   { id: 'a39', icon: '🌐', name: 'Hive Mind',      desc: 'Own 50 helpers (Hive tier)',       check: s => { let n = 0; for (const u of autoUpgrades) n += (s.upgrades[u.id]||0); return n >= 50; } },
   { id: 'a40', icon: '👑', name: 'Legion',         desc: 'Own 100 helpers (Legion tier)',    check: s => { let n = 0; for (const u of autoUpgrades) n += (s.upgrades[u.id]||0); return n >= 100; } },
+  { id: 'a47', icon: '⚛️', name: 'Sub-Atomic',     desc: 'Enter the Quantum Realm',           check: s => s.dimensionsVisited && s.dimensionsVisited.quantum },
+  { id: 'a48', icon: '🐶', name: 'Butter Dawg',    desc: 'Unlock the Butter Dawg skin',       check: s => s.unlockedSkins && s.unlockedSkins.butterDawg },
+  { id: 'a49', icon: '🧊', name: 'Frostbite',      desc: 'Reach Glacio',                      check: s => !!s.reachedGlacio },
+  { id: 'a50', icon: '🚀', name: 'Space Bunny',    desc: 'Unlock the Space Bunny skin',       check: s => s.unlockedSkins && s.unlockedSkins.spaceBunny },
   // Phase 4 — Invincible DLC
   { id: 'a41', icon: '🐱', name: 'Cat Army',       desc: 'Hire 70 Guard Cats',                check: s => (s.crafted.catGuard || 0) >= 70 },
   { id: 'a42', icon: '🤖', name: 'Robo Force',     desc: 'Build the Robo Cat Lab',            check: s => !!s.crafted.roboCatLab },
@@ -731,8 +777,12 @@ const defaultState = () => ({
   accelClicks: 0,
   accelParts: {},      // { partId: true }
   // ===== Dimension =====
-  dimension: 'normal',    // 'normal' | 'invincible'
+  dimension: 'normal',    // 'normal' | 'invincible' | 'quantum'
   dimensionsVisited: {},  // { dimensionId: true }
+  // ===== Atoms (Quantum Realm material) =====
+  atoms: 0,
+  // ===== Glacio (frost planet past Mars) =====
+  reachedGlacio: false,
   // ===== Cosmetic =====
   bunnyName: '',
   activeSkin: 'default',          // 'default' | 'cartoon' | 'invincible'
@@ -766,7 +816,7 @@ function mergeState(parsed) {
   fresh.dimensionsVisited = isPlainObject(parsed.dimensionsVisited) ? parsed.dimensionsVisited : {};
   fresh.unlockedSkins = Object.assign({ default: true }, isPlainObject(parsed.unlockedSkins) ? parsed.unlockedSkins : {});
   if (typeof parsed.activeSkin === 'string') fresh.activeSkin = parsed.activeSkin;
-  if (parsed.dimension === 'invincible' || parsed.dimension === 'normal') fresh.dimension = parsed.dimension;
+  if (['invincible','normal','quantum'].includes(parsed.dimension)) fresh.dimension = parsed.dimension;
   fresh.strands = Object.assign({ red: 0, blue: 0, green: 0, yellow: 0, mars: 0, glory: 0 }, parsed.strands || {});
   fresh.buddy = Object.assign({ unlocked: false, level: 1, mission: null, missionEndsAt: 0, notifiedComplete: false }, parsed.buddy || {});
   fresh.raiders = [];
@@ -775,7 +825,7 @@ function mergeState(parsed) {
   // Clear any past-due raid timer so player gets a grace period after long breaks
   fresh.nextRaidAt = 0;
   // Numeric safety against corrupted saves
-  for (const k of ['carrots','totalCarrots','lifetimeCarrots','scrap','fuel','iron','research','moondust','starFragments','prestigeCount','rocketProgress','raidsDefeated','raidsFailed','carrotsStolen','totalClicks','goldenClaimed','nextGoldenAt','frenzyUntil','clickStreak','bestStreak','lastClickAt','nextRaidAt','quarks','antimatter','singularity','accelClicks','nextOmniManAt','omniManDefeated']) {
+  for (const k of ['carrots','totalCarrots','lifetimeCarrots','scrap','fuel','iron','research','moondust','starFragments','prestigeCount','rocketProgress','raidsDefeated','raidsFailed','carrotsStolen','totalClicks','goldenClaimed','nextGoldenAt','frenzyUntil','clickStreak','bestStreak','lastClickAt','nextRaidAt','quarks','antimatter','singularity','accelClicks','nextOmniManAt','omniManDefeated','atoms']) {
     if (typeof fresh[k] !== 'number' || !isFinite(fresh[k]) || fresh[k] < 0) fresh[k] = 0;
   }
   if (typeof fresh.buddy.level !== 'number' || fresh.buddy.level < 1) fresh.buddy.level = 1;
@@ -854,6 +904,9 @@ function getGlobalMultiplier() {
   // Moon + Mars buildings
   m *= (1 + (state.crafted.moondustForge || 0) * 0.08);
   m *= (1 + (state.crafted.dustCollector || 0) * 0.12);
+  // Glacio
+  if (state.reachedGlacio) m *= 1.90;
+  m *= (1 + (state.crafted.glacioObservatory || 0) * 0.25);
   return m;
 }
 // Mastery: every 25 owned of a single upgrade unlocks a permanent +50% multiplier
@@ -948,6 +1001,7 @@ function getPerSecBreakdown() {
   if (hasResearch('terraforming')) marsGardenPerUnit *= 2;
   marsGardenPerUnit *= (1 + (state.crafted.terraformer || 0) * 0.25);
   out.farms += (state.crafted.marsGarden || 0) * marsGardenPerUnit;
+  out.farms += (state.crafted.iceGarden || 0) * 900;
   // Farm boosters apply to all farm output
   out.farms *= (1 + (state.crafted.wateringCan || 0) * 0.20);
   out.farms *= (1 + (state.crafted.beeHive || 0) * 0.15);
@@ -982,6 +1036,7 @@ function getPerSec() {
   if (hasResearch('terraforming')) marsGardenPerUnit *= 2;
   marsGardenPerUnit *= (1 + (state.crafted.terraformer || 0) * 0.25);
   farmTotal += (state.crafted.marsGarden || 0) * marsGardenPerUnit;
+  farmTotal += (state.crafted.iceGarden || 0) * 900;
   farmTotal *= (1 + (state.crafted.wateringCan || 0) * 0.20);
   farmTotal *= (1 + (state.crafted.beeHive || 0) * 0.15);
   // Moon Crater Dome boosts Moon Farms portion (applied to total — close enough)
@@ -1024,6 +1079,10 @@ function getIronPerSec() {
   const mineBoost = (state.crafted.redIronMine || 0) * 2 * (hasResearch('phobosSurvey') ? 2 : 1);
   m *= (1 + mineBoost);
   return (state.crafted.ironForge || 0) * 0.04 * m;
+}
+function getAtomsPerSec() {
+  // Atom Farms generate atoms over time
+  return (state.crafted.atomFarm || 0) * 0.05 * getResourceMult();
 }
 function getResearchPerSec() {
   // Reduced passive research from 0.06 → 0.04 so research costs more grind, not idle
@@ -1076,6 +1135,8 @@ function doPrestige() {
   state.rocketProgress = 0;
   state.reachedMoon = false;
   state.reachedMars = false;
+  state.reachedGlacio = false;
+  state.atoms = 0;
   state.raiders = [];
   state.nextRaidAt = 0;
   state.strands = { red: 0, blue: 0, green: 0, yellow: 0, mars: 0, glory: 0 };
@@ -1134,9 +1195,10 @@ function setText(id, val) {
 function updateBodyClasses() {
   const inv = state.dimension === 'invincible';
   document.body.classList.toggle('invincible-mode', inv);
-  // In Invincible mode the visual planet overlay resets — you're back on "Earth" of the new dimension.
-  document.body.classList.toggle('mars-mode', !inv && !!state.reachedMars);
-  document.body.classList.toggle('moon-mode', !inv && !!state.reachedMoon && !state.reachedMars);
+  // Highest planet wins for visual mode (Glacio > Mars > Moon > Earth).
+  document.body.classList.toggle('glacio-mode', !inv && !!state.reachedGlacio);
+  document.body.classList.toggle('mars-mode',   !inv && !state.reachedGlacio && !!state.reachedMars);
+  document.body.classList.toggle('moon-mode',   !inv && !state.reachedGlacio && !state.reachedMars && !!state.reachedMoon);
 }
 
 function render() {
@@ -1179,6 +1241,10 @@ function render() {
 
   $('launch-btn').classList.toggle('hidden', !(state.crafted.rocketMk1 && !state.reachedMoon));
   $('launch-mars-btn').classList.toggle('hidden', !(state.crafted.rocketMk2 && !state.reachedMars));
+  $('launch-glacio-btn').classList.toggle('hidden', !(state.crafted.rocketMk3 && !state.reachedGlacio));
+  $('quantum-btn').classList.toggle('hidden', !hasResearch('quantumTravel'));
+  $('pill-atoms').classList.toggle('hidden', state.atoms === 0 && !hasResearch('quantumTravel'));
+  $('atoms').textContent = fmt(state.atoms);
 
   const showPrestige = state.reachedMoon && prestigeReward() >= 1;
   const pBtn = $('prestige-btn');
@@ -1490,6 +1556,7 @@ function meetsRequires(reqs) {
     // Virtual requirements (computed from world state, not stored as flags)
     if (r === 'allAccelPartsBuilt' && partsBuiltCount() >= 100) continue;
     if (r === 'dimension_invincible' && state.dimension === 'invincible') continue;
+    if (r === 'reachedGlacio' && state.reachedGlacio) continue;
     return false;
   }
   return true;
@@ -1497,7 +1564,7 @@ function meetsRequires(reqs) {
 function costString(cost) {
   const icons = { carrots: '🥕', scrap: '🔩', fuel: '⛽', research: '🔬', iron: '⛓️',
                   moondust: '🌙', starFragments: '✨',
-                  quarks: '⚛️', antimatter: '🟣', singularity: '🕳️',
+                  quarks: '⚛️', antimatter: '🟣', singularity: '🕳️', atoms: '⚛️',
                   red: '🔴', blue: '🔵', green: '🟢', yellow: '🟡', mars: '🟥', glory: '⭐' };
   return Object.entries(cost).map(([k, v]) => `${icons[k] || ''} ${fmt(v)}`).join('  ');
 }
@@ -1667,6 +1734,7 @@ function prettyName(id) {
   const virtuals = {
     reachedMoon: 'Reach the Moon',
     reachedMars: 'Reach Mars',
+    reachedGlacio: 'Reach Glacio',
     allAccelPartsBuilt: 'Build all 100 accelerator parts',
     dimension_invincible: 'Cross into the Invincible Dimension',
   };
@@ -2759,6 +2827,7 @@ function tick() {
     state.research += getResearchPerSec()* dt;
     state.iron     += getIronPerSec()    * dt;
     state.quarks   += getQuarksPerSec()  * dt;
+    state.atoms    += getAtomsPerSec()   * dt;
   }
   if (state.clickStreak > 0 && now - state.lastClickAt > STREAK_WINDOW_MS) state.clickStreak = 0;
 
@@ -3126,6 +3195,36 @@ function launchMars() {
     render(); save();
   });
 }
+function launchGlacio() {
+  if (!state.crafted.rocketMk3 || state.reachedGlacio) return;
+  launchSeq('🧊', 5000, () => {
+    state.reachedGlacio = true;
+    state.atoms += 30;
+    toast('🧊 You reached Glacio! +30 Atoms. Everything +90%! Build Ice Gardens.', true);
+    checkAchievements();
+    updateBodyClasses();
+    render(); save();
+  });
+}
+function crossToQuantum() {
+  if (!hasResearch('quantumTravel')) return;
+  // Mark visited; this is a one-time unlock that enables Atom Farms + Butter Dawg skin.
+  if (!state.dimensionsVisited.quantum) {
+    state.dimensionsVisited.quantum = true;
+    toast('⚛️ You entered the Quantum Realm! Atom Farms unlocked.', true);
+  } else {
+    toast('⚛️ Quantum Realm re-entered. Atom production stable.');
+  }
+  // Visual: brief overlay
+  const overlay = document.createElement('div');
+  overlay.id = 'dimension-overlay';
+  overlay.innerHTML = `⚛️ QUANTUM SHRINK ⚛️<div class="sub">ENTERING THE SUB-ATOMIC UNIVERSE</div>`;
+  document.body.appendChild(overlay);
+  playClick(false);
+  setTimeout(() => overlay.remove(), 4600);
+  checkAchievements();
+  render(); save();
+}
 
 // ====== ACHIEVEMENTS ======
 function checkAchievements() {
@@ -3189,6 +3288,8 @@ document.querySelectorAll('.modal').forEach(m => {
 });
 $('launch-btn').addEventListener('click', launchMoon);
 $('launch-mars-btn').addEventListener('click', launchMars);
+$('launch-glacio-btn').addEventListener('click', launchGlacio);
+$('quantum-btn').addEventListener('click', crossToQuantum);
 $('dimension-travel-btn').addEventListener('click', crossDimension);
 $('prestige-btn').addEventListener('click', doPrestige);
 
@@ -3298,6 +3399,7 @@ updateBodyClasses();
   state.research += getResearchPerSec() * dt * 0.20;
   state.iron     += getIronPerSec()     * dt * 0.20;
   state.quarks   += getQuarksPerSec()   * dt * 0.20;
+  state.atoms    += getAtomsPerSec()    * dt * 0.20;
 })();
 
 render();
