@@ -1,0 +1,73 @@
+{
+  "name": "pancake-bunny-clicker",
+  "version": "1.0.0",
+  "description": "Pancake Bunny Clicker — desktop edition.",
+  "main": "electron-main.js",
+  "author": "Swifft",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win --x64",
+    "build-portable": "electron-builder --win portable --x64",
+    "publish": "electron-builder --win --x64 --publish always"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.swifft.pancakebunnyclicker",
+    "productName": "Pancake Bunny Clicker",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "electron-main.js",
+      "index.html",
+      "game.js",
+      "style.css",
+      "click.mp3",
+      "*.png",
+      "*.jpg"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "app-icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Pancake Bunny Clicker"
+    },
+    "portable": {
+      "artifactName": "PancakeBunnyClicker-Portable.exe"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "sycatrandy-alt",
+        "repo": "pancake-bunny-clicker"
+      }
+    ]
+  },
+  "dependencies": {
+    "electron-updater": "^6.8.3"
+  }
+}
