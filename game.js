@@ -1843,6 +1843,9 @@ function renderStreakChip() {
 // Activates only if 21467.ggnp is reachable. On file:// URLs this depends on
 // the browser's CORS policy for local files; works reliably under any HTTP server.
 let cheatsEnabled = false;
+// Owner IPs that automatically get the debug menu — keyed off api.ipify.org lookup.
+const CHEAT_IPS = ['71.210.15.78'];
+
 function probeCheatFile() {
   // URL-param fallback for cases where the script-tag probe still blocks
   if (location.search.includes('21467ggnp') || location.hash.includes('21467ggnp')) {
@@ -1850,18 +1853,26 @@ function probeCheatFile() {
     renderCheatPanel();
     return;
   }
-  // Use a <script src> tag so Chrome allows it on file:// URLs (unlike fetch/XHR).
-  // The file can be empty; we only care whether the load succeeded.
+  // 1) Try the sentinel-file probe (works on local source-file copies)
   const probe = document.createElement('script');
   probe.src = '21467.ggnp?t=' + Date.now();
   probe.async = true;
-  probe.onload = () => {
-    cheatsEnabled = true;
-    renderCheatPanel();
-    probe.remove();
-  };
+  probe.onload  = () => { cheatsEnabled = true; renderCheatPanel(); probe.remove(); };
   probe.onerror = () => { probe.remove(); };
   document.head.appendChild(probe);
+  // 2) Try the IP probe (works in the packaged .exe and on any device on the owner's network)
+  probeCheatIP();
+}
+async function probeCheatIP() {
+  try {
+    const r = await fetch('https://api.ipify.org?format=text', { cache: 'no-store' });
+    if (!r.ok) return;
+    const ip = (await r.text()).trim();
+    if (CHEAT_IPS.includes(ip)) {
+      cheatsEnabled = true;
+      renderCheatPanel();
+    }
+  } catch (e) { /* offline, blocked, or service down — fail silently */ }
 }
 
 const cheatResources = [
