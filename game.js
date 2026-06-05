@@ -73,17 +73,17 @@ const clickUpgrades = [
 
 const autoUpgrades = [
   // --- EARTH ---
-  { id: 'au_e0', tier: 'earth', icon: '🐜', name: 'Ant Colony',  desc: '+0.05/sec', baseCost: 25,        growth: 1.20, power: 0.05, max: 80, requires: [] },
+  { id: 'au_e0', tier: 'earth', icon: '🐜', img: 'helper_ant.png', name: 'Ant Colony',  desc: '+0.05/sec', baseCost: 25,        growth: 1.20, power: 0.05, max: 80, requires: [] },
   { id: 'au1', tier: 'earth', icon: '🐭', img: 'helper_mouse.png',   name: 'Mouse',        desc: '+0.2/sec',  baseCost: 80,        growth: 1.22, power: 0.2,  max: 75, requires: [] },
-  { id: 'au_e1', tier: 'earth', icon: '🐌', name: 'Snail',        desc: '+0.35/sec', baseCost: 180,       growth: 1.23, power: 0.35, max: 65, requires: [] },
-  { id: 'au7', tier: 'earth', icon: '🐿️', name: 'Squirrel',         desc: '+0.6/sec',  baseCost: 350,       growth: 1.24, power: 0.6,  max: 60, requires: [] },
+  { id: 'au_e1', tier: 'earth', icon: '🐌', img: 'helper_snail.png', name: 'Snail',        desc: '+0.35/sec', baseCost: 180,       growth: 1.23, power: 0.35, max: 65, requires: [] },
+  { id: 'au7', tier: 'earth', icon: '🐿️', img: 'helper_squirrel.png', name: 'Squirrel',         desc: '+0.6/sec',  baseCost: 350,       growth: 1.24, power: 0.6,  max: 60, requires: [] },
   { id: 'au2', tier: 'earth', icon: '🐹', img: 'helper_hamster.png', name: 'Hamster',      desc: '+1/sec',    baseCost: 1000,      growth: 1.27, power: 1,    max: 60, requires: [] },
-  { id: 'au_e2', tier: 'earth', icon: '🦔', name: 'Hedgehog',     desc: '+2/sec',    baseCost: 2800,      growth: 1.27, power: 2,    max: 55, requires: [] },
-  { id: 'au_e3', tier: 'earth', icon: '🐢', name: 'Tortoise',     desc: '+4/sec',    baseCost: 7500,      growth: 1.28, power: 4,    max: 55, requires: [] },
+  { id: 'au_e2', tier: 'earth', icon: '🦔', img: 'helper_hedgehog.png', name: 'Hedgehog',     desc: '+2/sec',    baseCost: 2800,      growth: 1.27, power: 2,    max: 55, requires: [] },
+  { id: 'au_e3', tier: 'earth', icon: '🐢', img: 'helper_tortoise.png', name: 'Tortoise',     desc: '+4/sec',    baseCost: 7500,      growth: 1.28, power: 4,    max: 55, requires: [] },
   { id: 'au3', tier: 'earth', icon: '🐰', img: 'helper_bunny.png',   name: 'Bunny Friend', desc: '+6/sec',    baseCost: 15000,     growth: 1.30, power: 6,    max: 50, requires: [] },
-  { id: 'au_e4', tier: 'earth', icon: '🐦', name: 'Sparrow',      desc: '+10/sec',   baseCost: 32000,     growth: 1.31, power: 10,   max: 50, requires: [] },
-  { id: 'au_e5', tier: 'earth', icon: '🦡', name: 'Badger',       desc: '+18/sec',   baseCost: 75000,     growth: 1.32, power: 18,   max: 45, requires: ['basicRocketry'] },
-  { id: 'au8', tier: 'earth', icon: '🦫', name: 'Beaver',           desc: '+15/sec',   baseCost: 60000,     growth: 1.32, power: 15,   max: 45, requires: ['basicRocketry'] },
+  { id: 'au_e4', tier: 'earth', icon: '🐦', img: 'helper_sparrow.png', name: 'Sparrow',      desc: '+10/sec',   baseCost: 32000,     growth: 1.31, power: 10,   max: 50, requires: [] },
+  { id: 'au_e5', tier: 'earth', icon: '🦡', img: 'helper_badger.png', name: 'Badger',       desc: '+18/sec',   baseCost: 75000,     growth: 1.32, power: 18,   max: 45, requires: ['basicRocketry'] },
+  { id: 'au8', tier: 'earth', icon: '🦫', img: 'helper_beaver.png', name: 'Beaver',           desc: '+15/sec',   baseCost: 60000,     growth: 1.32, power: 15,   max: 45, requires: ['basicRocketry'] },
   { id: 'au4', tier: 'earth', icon: '🦊', img: 'helper_fox.png',     name: 'Fox',          desc: '+28/sec',   baseCost: 220000,    growth: 1.33, power: 28,   max: 40, requires: [] },
   // --- MOON ---
   { id: 'au5',   tier: 'moon', icon: '🦝', img: 'helper_raccoon.png', name: 'Raccoon',    desc: '+100/sec',    baseCost: 2000000,   growth: 1.36, power: 100,    max: 30, requires: ['reachedMoon'] },
