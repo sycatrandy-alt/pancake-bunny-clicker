@@ -214,8 +214,8 @@ const recipes = [
   {
     id: 'particleAccelerator', icon: '🧮', name: 'Particle Accelerator', category: 'science',
     desc: 'A massive calculator-based collider. Smash particles to gather Quarks and build the 100 parts.',
-    cost: { carrots: 50000000, iron: 800, fuel: 500, research: 4000 }, oneTime: true,
-    requires: ['quantumComputing', 'reachedMars'],
+    cost: { carrots: 200000, scrap: 50 }, oneTime: true,
+    requires: ['basicRocketry'],
     onCraft: () => { state.crafted.particleAccelerator = true; toast('🧮 Particle Accelerator online! Calculator humming.', true); },
   },
 
