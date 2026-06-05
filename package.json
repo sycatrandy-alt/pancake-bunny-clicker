@@ -63,7 +63,8 @@
       {
         "provider": "github",
         "owner": "sycatrandy-alt",
-        "repo": "pancake-bunny-clicker"
+        "repo": "pancake-bunny-clicker",
+        "releaseType": "release"
       }
     ]
   },
