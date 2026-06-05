@@ -193,6 +193,34 @@ main {
 body.no-motion .floater { animation: none; opacity: 0; }
 body.no-motion #bunny-wrap:active { transform: none; }
 
+#streak-chip {
+  position: absolute;
+  top: -12px; right: -16px;
+  z-index: 8;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 5px 10px;
+  background: linear-gradient(135deg, #ff8a4a, #ffd97a);
+  border: 1px solid #1a0f00;
+  border-radius: 10px;
+  box-shadow: 0 0 14px rgba(255,180,80,0.7), 0 2px 6px rgba(0,0,0,0.5);
+  font-family: 'Consolas', monospace;
+  font-weight: bold;
+  color: #1a0f00;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+#streak-chip.tier-2 { background: linear-gradient(135deg, #ff5a30, #ffb070); }
+#streak-chip.tier-3 { background: linear-gradient(135deg, #ff3030, #ff80a0); color: #fff; }
+#streak-chip.tier-3 .streak-label { color: rgba(255,255,255,0.85); }
+#streak-chip.tier-max {
+  background: linear-gradient(135deg, #c020ff, #ff40c0, #ff8060);
+  color: #fff;
+}
+#streak-chip .streak-label { font-size: 0.55em; letter-spacing: 2px; opacity: 0.85; }
+#streak-count { font-size: 1.6em; font-variant-numeric: tabular-nums; }
+#streak-bonus { font-size: 0.62em; letter-spacing: 0.5px; margin-top: 1px; }
+
 #click-stats {
   display: flex; gap: 28px;
   text-align: center;
@@ -235,6 +263,13 @@ body.no-motion .helper-chip { animation: none; }
   object-fit: cover;
   border-radius: 10px;
   display: block;
+}
+.helper-chip .emoji-icon {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2em;
+  border-radius: 10px;
+  background: var(--bg-3);
 }
 .helper-chip .count {
   position: absolute;

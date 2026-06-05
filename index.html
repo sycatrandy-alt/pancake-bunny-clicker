@@ -23,6 +23,11 @@
       <div id="bunny-wrap">
         <img id="bunny-img" src="bunny.png" alt="Bunny" draggable="false">
         <div id="click-fx"></div>
+        <div id="streak-chip" class="hidden">
+          <span class="streak-label">STREAK</span>
+          <span id="streak-count">0</span>
+          <span id="streak-bonus">+0%</span>
+        </div>
       </div>
       <div id="click-stats">
         <div><span class="big" id="per-click">+1</span> per click</div>
@@ -40,12 +45,14 @@
   <aside id="side-panel">
     <nav id="tabs">
       <button class="tab active" data-tab="tree">🌳 Skills</button>
+      <button class="tab" data-tab="research">🔬 Research</button>
       <button class="tab" data-tab="helpers">🐾 Helpers</button>
       <button class="tab" data-tab="achievements">🏆 Trophies</button>
       <button class="tab" data-tab="skins">🎨 Skins</button>
       <button class="tab" data-tab="settings">⚙️ Settings</button>
     </nav>
     <div class="tab-pane active" id="pane-tree"></div>
+    <div class="tab-pane" id="pane-research"></div>
     <div class="tab-pane" id="pane-helpers"></div>
     <div class="tab-pane" id="pane-achievements"></div>
     <div class="tab-pane" id="pane-skins"></div>

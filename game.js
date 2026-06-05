@@ -38,6 +38,7 @@ const RES_DEFS = [
   { id: 'electricity', icon: '⚡', name: 'Watts',       fromAge: 5, title: 'Generated in Modern-Era power plants.' },
   { id: 'fuel',        icon: '⛽', name: 'Fuel',        fromAge: 6, title: 'Rocket-grade. Space-Age resource.' },
   { id: 'quarks',      icon: '⚛️', name: 'Quarks',      fromAge: 7, title: 'Sub-atomic. Cosmic-Age resource.' },
+  { id: 'research',    icon: '🔬', name: 'Research',    fromAge: 1, title: 'Produced by libraries and labs. Spent in the Research tab on permanent meta-upgrades.' },
 ];
 
 /* ============ DATA: SKILLS ============ */
@@ -66,6 +67,9 @@ const SKILLS = [
   { id: 'st_fire',   age: 'stone', icon: '🔥', name: 'Make Fire',    desc: '+15% global multiplier', cost: { berries: 200 }, requires: ['st_stick'], effects: { globalMult: 0.15 } },
   { id: 'st_cave',   age: 'stone', icon: '🦴', name: 'Cave Painting',desc: '+5 per click',         cost: { berries: 500, stone: 5 }, requires: ['st_fire'], effects: { clickAdd: 5 } },
   { id: 'st_tribe',  age: 'stone', icon: '👥', name: 'Form Tribe',   desc: '+30% global multiplier · +0.5/sec', cost: { berries: 1200, stone: 12 }, requires: ['st_cave'], effects: { globalMult: 0.30, perSecAdd: 0.5 } },
+  { id: 'st_berry',  age: 'stone', icon: '🌿', name: 'Berry Bush',   desc: '+1.5/sec auto',        cost: { berries: 350, stone: 4 }, requires: ['st_fire'], effects: { perSecAdd: 1.5 } },
+  { id: 'st_hunt',   age: 'stone', icon: '🏹', name: 'Hunting',      desc: '+5% crit chance',      cost: { berries: 800, stone: 10 }, requires: ['st_cave'], effects: { critChance: 0.05 } },
+  { id: 'st_animal', age: 'stone', icon: '🐗', name: 'Animal Taming',desc: 'Helpers +20%',         cost: { berries: 1800, stone: 18 }, requires: ['st_tribe'], effects: { helperMult: 0.20 } },
   { id: 'st_adv',    age: 'stone', icon: '🥉', name: 'Discover Bronze', desc: 'Advance to the Bronze Age.', cost: { berries: 3000, stone: 30 }, requires: ['st_tribe'], effects: { advance: 'bronze' } },
 
   // ===== BRONZE =====
@@ -74,6 +78,9 @@ const SKILLS = [
   { id: 'br_mine',   age: 'bronze', icon: '⛏️', name: 'Bronze Mine',  desc: '+0.4 bronze/sec',      cost: { berries: 8000, stone: 50 }, requires: ['br_smelt'], effects: { bronzePerSec: 0.4 } },
   { id: 'br_wheel',  age: 'bronze', icon: '🛞', name: 'The Wheel',    desc: '+50% click power',     cost: { berries: 15000, bronze: 10 }, requires: ['br_mine'], effects: { clickMult: 0.50 } },
   { id: 'br_writing',age: 'bronze', icon: '📜', name: 'Writing',      desc: '+25% global · +3/sec', cost: { berries: 30000, bronze: 20 }, requires: ['br_pottery'], effects: { globalMult: 0.25, perSecAdd: 3 } },
+  { id: 'br_library',age: 'bronze', icon: '📚', name: 'Library',      desc: '+0.2 🔬 research/sec',  cost: { berries: 6000, bronze: 5 }, requires: ['br_smelt'], effects: { researchPerSec: 0.2 } },
+  { id: 'br_marketp',age: 'bronze', icon: '🛒', name: 'Marketplace',  desc: '+25% click power',     cost: { berries: 12000, bronze: 8 }, requires: ['br_pottery'], effects: { clickMult: 0.25 } },
+  { id: 'br_calend', age: 'bronze', icon: '📆', name: 'Calendar',     desc: '+15% global · helpers +15%', cost: { berries: 20000, bronze: 15 }, requires: ['br_writing'], effects: { globalMult: 0.15, helperMult: 0.15 } },
   { id: 'br_adv',    age: 'bronze', icon: '⚔️', name: 'Forge Iron',   desc: 'Advance to the Iron Age.', cost: { berries: 60000, bronze: 40 }, requires: ['br_wheel','br_writing'], effects: { advance: 'iron' } },
 
   // ===== IRON =====
@@ -82,6 +89,9 @@ const SKILLS = [
   { id: 'ir_plow',   age: 'iron', icon: '🌾', name: 'Iron Plow',     desc: '+40% global · +15/sec', cost: { berries: 220000 }, requires: ['ir_sword'], effects: { globalMult: 0.40, perSecAdd: 15 } },
   { id: 'ir_aqua',   age: 'iron', icon: '💧', name: 'Aqueduct',      desc: 'Helpers +50%',          cost: { berries: 350000, iron: 20 }, requires: ['ir_forge'], effects: { helperMult: 0.50 } },
   { id: 'ir_chariot',age: 'iron', icon: '🐎', name: 'Chariot',       desc: '+100% click power',     cost: { berries: 600000, iron: 40 }, requires: ['ir_plow'], effects: { clickMult: 1.00 } },
+  { id: 'ir_scribe', age: 'iron', icon: '🪶', name: 'Scribe Hall',   desc: '+1 🔬 research/sec',    cost: { berries: 180000, iron: 25 }, requires: ['ir_forge'], effects: { researchPerSec: 1 } },
+  { id: 'ir_citadel',age: 'iron', icon: '🏯', name: 'Citadel',       desc: '+30% global · +50/sec',cost: { berries: 400000, iron: 60 }, requires: ['ir_plow'], effects: { globalMult: 0.30, perSecAdd: 50 } },
+  { id: 'ir_currency',age: 'iron',icon: '💰', name: 'Currency',      desc: '+10% crit chance',     cost: { berries: 700000, iron: 70 }, requires: ['ir_chariot'], effects: { critChance: 0.10 } },
   { id: 'ir_adv',    age: 'iron', icon: '🏰', name: 'Found Kingdom', desc: 'Advance to the Medieval Era.', cost: { berries: 1500000, iron: 80 }, requires: ['ir_aqua','ir_chariot'], effects: { advance: 'medieval' } },
 
   // ===== MEDIEVAL =====
@@ -90,6 +100,9 @@ const SKILLS = [
   { id: 'md_mint',   age: 'medieval', icon: '🪙', name: 'Royal Mint', desc: '+0.5 gold/sec',        cost: { berries: 8000000, iron: 100 }, requires: ['md_castle'], effects: { goldPerSec: 0.5 } },
   { id: 'md_cathedr',age: 'medieval', icon: '⛪', name: 'Cathedral',  desc: '+60% global · 5% crit chance', cost: { berries: 15000000, gold: 20 }, requires: ['md_knight'], effects: { globalMult: 0.60, critChance: 0.05 } },
   { id: 'md_guild',  age: 'medieval', icon: '🛒', name: 'Guild Hall', desc: 'Helpers +75% · +100/sec', cost: { berries: 25000000, gold: 40 }, requires: ['md_mint'], effects: { helperMult: 0.75, perSecAdd: 100 } },
+  { id: 'md_univ',   age: 'medieval', icon: '🎓', name: 'University',   desc: '+5 🔬 research/sec',    cost: { berries: 10000000, gold: 30 }, requires: ['md_cathedr'], effects: { researchPerSec: 5 } },
+  { id: 'md_alchemy',age: 'medieval', icon: '🧪', name: 'Alchemy',      desc: '+0.2 gold/sec',         cost: { berries: 18000000, gold: 50 }, requires: ['md_mint'], effects: { goldPerSec: 0.2 } },
+  { id: 'md_crusade',age: 'medieval', icon: '⚜️', name: 'Crusade',      desc: '+500 per click',       cost: { berries: 35000000, gold: 80 }, requires: ['md_knight'], effects: { clickAdd: 500 } },
   { id: 'md_adv',    age: 'medieval', icon: '🖨️', name: 'Printing Press', desc: 'Advance to the Industrial Age.', cost: { berries: 80000000, gold: 100 }, requires: ['md_cathedr','md_guild'], effects: { advance: 'industrial' } },
 
   // ===== INDUSTRIAL =====
@@ -98,6 +111,9 @@ const SKILLS = [
   { id: 'in_mine',   age: 'industrial', icon: '⛏️', name: 'Coal Mine',desc: '+2 coal/sec',         cost: { berries: 500000000, gold: 150 }, requires: ['in_engine'], effects: { coalPerSec: 2 } },
   { id: 'in_rail',   age: 'industrial', icon: '🚆', name: 'Railroad', desc: '+100% click · helpers +100%', cost: { berries: 1000000000, coal: 30 }, requires: ['in_factory'], effects: { clickMult: 1.00, helperMult: 1.00 } },
   { id: 'in_tele',   age: 'industrial', icon: '📡', name: 'Telegraph',desc: '+80% global · +5000/sec', cost: { berries: 2200000000, coal: 60 }, requires: ['in_mine'], effects: { globalMult: 0.80, perSecAdd: 5000 } },
+  { id: 'in_lab',    age: 'industrial', icon: '🧬', name: 'R&D Lab',    desc: '+30 🔬 research/sec',  cost: { berries: 700000000, coal: 40 }, requires: ['in_engine'], effects: { researchPerSec: 30 } },
+  { id: 'in_steel',  age: 'industrial', icon: '🏗️', name: 'Steel Mill', desc: '+200% click power',    cost: { berries: 1.5e9, coal: 50 }, requires: ['in_factory'], effects: { clickMult: 2.00 } },
+  { id: 'in_combust',age: 'industrial', icon: '💥', name: 'Combustion', desc: '+0.5 fuel/sec',        cost: { berries: 3e9, coal: 100 }, requires: ['in_tele'], effects: { fuelPerSec: 0.5 } },
   { id: 'in_adv',    age: 'industrial', icon: '⚡', name: 'Tame Electricity', desc: 'Advance to the Modern Era.', cost: { berries: 5e9, coal: 120 }, requires: ['in_rail','in_tele'], effects: { advance: 'modern' } },
 
   // ===== MODERN =====
@@ -106,14 +122,19 @@ const SKILLS = [
   { id: 'md2_inet',  age: 'modern', icon: '🌐', name: 'Internet',     desc: '+150% global · +50000/sec', cost: { berries: 5e10, electricity: 10 }, requires: ['md2_comp'], effects: { globalMult: 1.50, perSecAdd: 50000 } },
   { id: 'md2_sat',   age: 'modern', icon: '🛰️', name: 'Satellites',   desc: 'Helpers +150% · crit +10%', cost: { berries: 1e11, electricity: 25 }, requires: ['md2_inet'], effects: { helperMult: 1.50, critChance: 0.10 } },
   { id: 'md2_quant', age: 'modern', icon: '⚛️', name: 'Quantum Mechanics', desc: '+1 fuel/sec · +200% click', cost: { berries: 3e11, electricity: 50 }, requires: ['md2_sat'], effects: { fuelPerSec: 1, clickMult: 2.00 } },
+  { id: 'md2_aiLab', age: 'modern', icon: '🤖', name: 'AI Lab',       desc: '+500 🔬 research/sec',  cost: { berries: 5e10, electricity: 15 }, requires: ['md2_comp'], effects: { researchPerSec: 500 } },
+  { id: 'md2_iot',   age: 'modern', icon: '📱', name: 'IoT Network',  desc: 'Helpers +200%',         cost: { berries: 1.5e11, electricity: 30 }, requires: ['md2_inet'], effects: { helperMult: 2.00 } },
+  { id: 'md2_smart', age: 'modern', icon: '🧠', name: 'Smartphones',  desc: '+15000 per click',     cost: { berries: 4e11, electricity: 60 }, requires: ['md2_sat'], effects: { clickAdd: 15000 } },
   { id: 'md2_adv',   age: 'modern', icon: '🚀', name: 'Build a Rocket', desc: 'Advance to the Space Age.', cost: { berries: 1e12, electricity: 100, fuel: 30 }, requires: ['md2_quant'], effects: { advance: 'space' } },
 
   // ===== SPACE =====
   { id: 'sp_moon',   age: 'space', icon: '🌙', name: 'Moon Landing',  desc: '+200% global multiplier', cost: { berries: 5e12, fuel: 40 }, effects: { globalMult: 2.00 } },
   { id: 'sp_mars',   age: 'space', icon: '🔴', name: 'Mars Mission',  desc: '+800% click power',   cost: { berries: 1.5e13, fuel: 80 }, requires: ['sp_moon'], effects: { clickMult: 8.00 } },
-  { id: 'sp_accel',  age: 'space', icon: '⚛️', name: 'Particle Accelerator', desc: '+2 quarks/sec', cost: { berries: 4e13, fuel: 150 }, requires: ['sp_mars'], effects: { quarksPerSec: 2 } },
+  { id: 'sp_accel',  age: 'space', icon: '🧮', name: 'Particle Accelerator', desc: 'A calculator-shaped collider. +5 quarks/sec · +200% global mult · +5000 🔬 research/sec.', cost: { berries: 4e13, fuel: 150 }, requires: ['sp_mars'], effects: { quarksPerSec: 5, globalMult: 2.00, researchPerSec: 5000 } },
   { id: 'sp_iss',    age: 'space', icon: '🛰️', name: 'Space Station', desc: 'Helpers +300% · +1M/sec', cost: { berries: 1e14, quarks: 30 }, requires: ['sp_accel'], effects: { helperMult: 3.00, perSecAdd: 1e6 } },
   { id: 'sp_jump',   age: 'space', icon: '🌀', name: 'Quantum Jump',  desc: '+500% global · crit +15%', cost: { berries: 3e14, quarks: 80 }, requires: ['sp_iss'], effects: { globalMult: 5.00, critChance: 0.15 } },
+  { id: 'sp_dna',    age: 'space', icon: '🧬', name: 'DNA Sequencer', desc: 'Helpers +400% · +50000 🔬/sec', cost: { berries: 5e14, quarks: 120 }, requires: ['sp_accel'], effects: { helperMult: 4.00, researchPerSec: 50000 } },
+  { id: 'sp_glacio', age: 'space', icon: '🧊', name: 'Glacio Mission',desc: '+300% click · +200% global',  cost: { berries: 8e14, quarks: 150 }, requires: ['sp_mars'], effects: { clickMult: 3.00, globalMult: 2.00 } },
   { id: 'sp_adv',    age: 'space', icon: '🌌', name: 'Tear Spacetime', desc: 'Advance to the Cosmic Age.', cost: { berries: 1e15, quarks: 200 }, requires: ['sp_jump'], effects: { advance: 'cosmic' } },
 
   // ===== COSMIC =====
@@ -121,7 +142,45 @@ const SKILLS = [
   { id: 'cs_galaxy', age: 'cosmic', icon: '🌌', name: 'Galaxy Map',   desc: '+1000% global',       cost: { berries: 2e16, quarks: 600 }, requires: ['cs_star'], effects: { globalMult: 10.00 } },
   { id: 'cs_dyson',  age: 'cosmic', icon: '☀️', name: 'Dyson Sphere', desc: '+5/sec watts · +5/sec fuel · +5/sec quarks', cost: { berries: 1e17, quarks: 1200 }, requires: ['cs_galaxy'], effects: { wattsPerSec: 5, fuelPerSec: 5, quarksPerSec: 5 } },
   { id: 'cs_dim',    age: 'cosmic', icon: '🔮', name: 'Dimension Lens', desc: 'Helpers ×10', cost: { berries: 5e17, quarks: 2500 }, requires: ['cs_dyson'], effects: { helperMult: 9.00 } },
+  { id: 'cs_omni',   age: 'cosmic', icon: '🦸', name: 'Invincible Suit',desc: '+2000% click',         cost: { berries: 2e17, quarks: 1800 }, requires: ['cs_galaxy'], effects: { clickMult: 20.00 } },
+  { id: 'cs_singul', age: 'cosmic', icon: '🕳️', name: 'Singularity Reactor', desc: '+10/sec watts · +10/sec fuel · +10/sec quarks · +500000 🔬/sec', cost: { berries: 1e18, quarks: 5000 }, requires: ['cs_dim'], effects: { wattsPerSec: 10, fuelPerSec: 10, quarksPerSec: 10, researchPerSec: 500000 } },
+  { id: 'cs_multi',  age: 'cosmic', icon: '🪐', name: 'Multiverse',     desc: 'Helpers ×20',          cost: { berries: 5e18, quarks: 9000 }, requires: ['cs_singul'], effects: { helperMult: 19.00 } },
   { id: 'cs_god',    age: 'cosmic', icon: '👁️', name: 'Cosmic Awareness', desc: '+5000% click · +5000% global · crit 50%', cost: { berries: 1e19, quarks: 8000 }, requires: ['cs_dim'], effects: { clickMult: 50.00, globalMult: 50.00, critChance: 0.50 } },
+];
+
+/* ============ DATA: RESEARCH ============ */
+/* Parallel tech tree using 🔬 Research points. Generally smaller numbers,
+   more multiplicative bonuses. Each node has cost.research and effects. */
+const RESEARCH = [
+  // Tier 0 — early game
+  { id: 'rs_method',  tier: 0, icon: '📖', name: 'Scientific Method', desc: '+15% global multiplier',         cost: 50, requires: [] },
+  { id: 'rs_gather',  tier: 0, icon: '🧺', name: 'Gathering Theory',  desc: '+20% click power',               cost: 80, requires: [] },
+  { id: 'rs_society', tier: 0, icon: '🤝', name: 'Social Organization',desc: 'Helpers +25%',                  cost: 120, requires: [] },
+
+  // Tier 1 — bronze/iron
+  { id: 'rs_metal',   tier: 1, icon: '⚒️', name: 'Metallurgy',        desc: '+25% global',                   cost: 350, requires: ['rs_method'] },
+  { id: 'rs_engineer',tier: 1, icon: '📐', name: 'Engineering',       desc: '+40% click power',              cost: 500, requires: ['rs_gather'] },
+  { id: 'rs_horti',   tier: 1, icon: '🌾', name: 'Horticulture',      desc: '+15/sec auto income',           cost: 750, requires: ['rs_society'] },
+
+  // Tier 2 — iron/medieval
+  { id: 'rs_economy', tier: 2, icon: '💰', name: 'Economics',         desc: 'Helpers +50%',                  cost: 2200, requires: ['rs_metal','rs_engineer'] },
+  { id: 'rs_chemistry',tier: 2,icon: '⚗️', name: 'Chemistry',         desc: '+50% global',                   cost: 3500, requires: ['rs_metal'] },
+  { id: 'rs_optics',  tier: 2, icon: '🔭', name: 'Optics',            desc: '+10% crit chance',              cost: 4800, requires: ['rs_engineer'] },
+
+  // Tier 3 — industrial
+  { id: 'rs_physics', tier: 3, icon: '🌡️', name: 'Thermodynamics',    desc: '+75% global',                   cost: 18000, requires: ['rs_chemistry'] },
+  { id: 'rs_indu',    tier: 3, icon: '🏭', name: 'Mass Production',   desc: '+100% click power',             cost: 28000, requires: ['rs_economy'] },
+  { id: 'rs_steam',   tier: 3, icon: '♨️', name: 'Steam Networks',    desc: '+5000/sec auto',                cost: 42000, requires: ['rs_horti','rs_economy'] },
+
+  // Tier 4 — modern
+  { id: 'rs_quantum', tier: 4, icon: '⚛️', name: 'Quantum Theory',    desc: '+200% global',                  cost: 250000, requires: ['rs_physics'] },
+  { id: 'rs_compsci', tier: 4, icon: '💻', name: 'Computer Science',  desc: 'Helpers +200%',                 cost: 400000, requires: ['rs_indu'] },
+  { id: 'rs_relat',   tier: 4, icon: '🌀', name: 'Relativity',        desc: '+20% crit chance',              cost: 650000, requires: ['rs_optics'] },
+
+  // Tier 5 — space/cosmic
+  { id: 'rs_grav',    tier: 5, icon: '🪐', name: 'Gravitics',         desc: '+500% global',                  cost: 5000000, requires: ['rs_quantum'] },
+  { id: 'rs_singul',  tier: 5, icon: '🕳️', name: 'Singularity Math',  desc: '+1000% click power',            cost: 12000000, requires: ['rs_compsci'] },
+  { id: 'rs_ascend',  tier: 5, icon: '👁️', name: 'Cosmic Ascension',  desc: 'Helpers ×10 · crit +30%',       cost: 80000000, requires: ['rs_grav','rs_singul'] },
 ];
 
 /* ============ DATA: HELPERS ============ */
@@ -142,6 +201,15 @@ const HELPERS = [
   { id: 'raccoon',  fromAge: 'modern',    img: 'helper_raccoon.png',  name: 'Raccoon',     perSec: 500000,baseCost: 2.5e9,  growth: 1.42 },
   { id: 'eagle',    fromAge: 'space',     img: 'helper_eagle.png',    name: 'Eagle',       perSec: 2e6,   baseCost: 1.5e10, growth: 1.44 },
   { id: 'buddy',    fromAge: 'cosmic',    img: 'npc_buddy.png',       name: 'Buddy',       perSec: 1e7,   baseCost: 1e11,   growth: 1.46 },
+  // Emoji-only helpers (no portrait) — extra variety in each age
+  { id: 'frog',     fromAge: 'stone',     emoji: '🐸', name: 'Frog Hunter', perSec: 0.35, baseCost: 70, growth: 1.18 },
+  { id: 'bee',      fromAge: 'bronze',    emoji: '🐝', name: 'Bee Hive',    perSec: 5,    baseCost: 2200, growth: 1.22 },
+  { id: 'goat',     fromAge: 'iron',      emoji: '🐐', name: 'Goat Herd',   perSec: 50,   baseCost: 40000, growth: 1.26 },
+  { id: 'horse',    fromAge: 'medieval',  emoji: '🐎', name: 'Knight Horse',perSec: 500,  baseCost: 800000, growth: 1.30 },
+  { id: 'mech',     fromAge: 'industrial',emoji: '🤖', name: 'Steam Mech',  perSec: 20000,baseCost: 15000000, growth: 1.34 },
+  { id: 'drone',    fromAge: 'modern',    emoji: '🚁', name: 'Delivery Drone',perSec: 250000,baseCost: 1.2e9, growth: 1.38 },
+  { id: 'sat',      fromAge: 'space',     emoji: '🛰️', name: 'Satellite',  perSec: 5e6, baseCost: 7e10, growth: 1.42 },
+  { id: 'ufo',      fromAge: 'cosmic',    emoji: '🛸', name: 'UFO',         perSec: 3e7, baseCost: 5e11, growth: 1.44 },
 ];
 
 /* ============ DATA: SKINS ============ */
@@ -172,19 +240,37 @@ const ACHS = [
   { id: 'a6',    icon: '🚀', name: 'Astronaut',    desc: 'Reach the Space Age',      check: s => ageIdx(s.currentAge) >= 6 },
   { id: 'a7',    icon: '🌌', name: 'Cosmic',       desc: 'Reach the Cosmic Age',     check: s => ageIdx(s.currentAge) >= 7 },
   { id: 'sk30',  icon: '👁️', name: 'Enlightened',  desc: 'Learn every skill',        check: s => Object.keys(s.skills).length >= SKILLS.length },
+  // Research milestones
+  { id: 'r1',    icon: '🔬', name: 'First Theory', desc: 'Buy one research',         check: s => Object.keys(s.research || {}).length >= 1 },
+  { id: 'r5',    icon: '📊', name: 'Theorist',     desc: 'Buy 5 research nodes',     check: s => Object.keys(s.research || {}).length >= 5 },
+  { id: 'r15',   icon: '🧠', name: 'Scientist',    desc: 'Buy 15 research nodes',    check: s => Object.keys(s.research || {}).length >= 15 },
+  { id: 'rAll',  icon: '🎓', name: 'PhD',          desc: 'Buy every research node',  check: s => Object.keys(s.research || {}).length >= RESEARCH.length },
+  // Streak achievements
+  { id: 'str25', icon: '🔥', name: 'On Fire',      desc: 'Reach a streak of 25',     check: s => (s.bestStreak || 0) >= 25 },
+  { id: 'str100',icon: '⚡', name: 'Combo King',   desc: 'Reach the streak cap (100)',check: s => (s.bestStreak || 0) >= 100 },
+  // Particle Accelerator
+  { id: 'pa',    icon: '🧮', name: 'Calculator Crew', desc: 'Build the Particle Accelerator', check: s => !!s.skills.sp_accel },
+  // Helper expansion
+  { id: 'h50',   icon: '🐾', name: 'Menagerie',    desc: 'Own 50 helpers total',     check: s => sumHelpers() >= 50 },
+  { id: 'h250',  icon: '🌐', name: 'Legion',       desc: 'Own 250 helpers total',    check: s => sumHelpers() >= 250 },
 ];
 
 /* ============ STATE ============ */
 function defaultState() {
   return {
-    res: { berries: 0, stone: 0, bronze: 0, iron: 0, gold: 0, coal: 0, electricity: 0, fuel: 0, quarks: 0 },
+    res: { berries: 0, stone: 0, bronze: 0, iron: 0, gold: 0, coal: 0, electricity: 0, fuel: 0, quarks: 0, research: 0 },
     skills: {},        // skillId: true
+    research: {},      // researchId: true
     helpers: {},       // helperId: count
     achievements: {},
     currentAge: 'stone',
     activeSkin: 'default',
     unlockedSkins: { default: true },
     totalClicks: 0,
+    accelClicks: 0,    // Particle Accelerator side-clicks
+    clickStreak: 0,
+    bestStreak: 0,
+    lastClickAt: 0,
     settings: { sound: true, volume: 0.4, dark: true, noMotion: false },
   };
 }
@@ -202,8 +288,9 @@ function load() {
     if (!parsed || typeof parsed !== 'object') return;
     S = Object.assign(defaultState(), parsed);
     // Defensive merges for nested objects
-    S.res = Object.assign({ berries: 0, stone: 0, bronze: 0, iron: 0, gold: 0, coal: 0, electricity: 0, fuel: 0, quarks: 0 }, parsed.res || {});
+    S.res = Object.assign({ berries: 0, stone: 0, bronze: 0, iron: 0, gold: 0, coal: 0, electricity: 0, fuel: 0, quarks: 0, research: 0 }, parsed.res || {});
     S.skills = parsed.skills || {};
+    S.research = parsed.research || {};
     S.helpers = parsed.helpers || {};
     S.achievements = parsed.achievements || {};
     S.unlockedSkins = Object.assign({ default: true }, parsed.unlockedSkins || {});
@@ -222,7 +309,8 @@ function sumHelpers() { let n = 0; for (const k of Object.keys(S.helpers)) n += 
 function getEffectsSum() {
   const sum = { clickAdd: 0, clickMult: 0, globalMult: 0, perSecAdd: 0, stonePerClick: 0,
     bronzePerSec: 0, ironPerSec: 0, goldPerSec: 0, coalPerSec: 0, wattsPerSec: 0,
-    fuelPerSec: 0, quarksPerSec: 0, helperMult: 0, critChance: 0 };
+    fuelPerSec: 0, quarksPerSec: 0, researchPerSec: 0, helperMult: 0, critChance: 0,
+    streakBonus: 0, accelClickMult: 0 };
   for (const id of Object.keys(S.skills)) {
     const sk = SKILLS.find(x => x.id === id);
     if (!sk) continue;
@@ -230,6 +318,12 @@ function getEffectsSum() {
       if (k === 'advance') continue;
       sum[k] = (sum[k] || 0) + sk.effects[k];
     }
+  }
+  // Research nodes add to the same sum
+  for (const id of Object.keys(S.research)) {
+    const r = RESEARCH.find(x => x.id === id);
+    if (!r) continue;
+    for (const k of Object.keys(r.effects || {})) sum[k] = (sum[k] || 0) + r.effects[k];
   }
   return sum;
 }
@@ -303,16 +397,27 @@ function playClickSfx() {
 }
 
 /* ============ CLICK ============ */
+const STREAK_WINDOW_MS = 1500;
+const STREAK_CAP = 100;
 function clickBunny(ev) {
-  let gain = getPerClick();
+  const now = Date.now();
+  // Click streak: each rapid click extends, +1% click power per streak, caps at +100%
+  if (now - (S.lastClickAt || 0) > STREAK_WINDOW_MS) S.clickStreak = 1;
+  else S.clickStreak = Math.min(STREAK_CAP, S.clickStreak + 1);
+  if (S.clickStreak > S.bestStreak) S.bestStreak = S.clickStreak;
+  S.lastClickAt = now;
+  const streakBonus = (S.clickStreak - 1) * 0.01;
+  let gain = getPerClick() * (1 + streakBonus);
   let crit = false;
   if (Math.random() < getCritChance()) { gain *= 5; crit = true; }
+  gain = Math.floor(gain);
   S.res.berries += gain;
   S.totalClicks += 1;
   // Stone drop chance from Sharp Stick
   const sc = getEffectsSum().stonePerClick;
   if (sc > 0 && Math.random() < sc) S.res.stone += 1;
-  spawnFloater(ev, (crit ? '✨CRIT ' : '') + '+' + fmt(gain), crit ? 'crit' : '');
+  const streakTag = S.clickStreak >= 10 ? ` ×${S.clickStreak}` : '';
+  spawnFloater(ev, (crit ? '✨CRIT ' : '') + '+' + fmt(gain) + streakTag, crit ? 'crit' : '');
   playClickSfx();
   flashPill('berries');
   checkAchievements();
@@ -357,6 +462,25 @@ function skillReqsMet(sk) {
   if (ageIdx(S.currentAge) < ageIdx(sk.age)) return false;
   if (sk.requires) for (const r of sk.requires) if (!S.skills[r]) return false;
   return true;
+}
+
+/* ============ RESEARCH ============ */
+function researchReqsMet(r) {
+  if (!r.requires) return true;
+  for (const id of r.requires) if (!S.research[id]) return false;
+  return true;
+}
+function buyResearch(id) {
+  const r = RESEARCH.find(x => x.id === id);
+  if (!r || S.research[id]) return;
+  if (!researchReqsMet(r)) { toast('Research prereqs not met', false); return; }
+  if ((S.res.research || 0) < r.cost) { toast('Need more 🔬 research', false); return; }
+  S.res.research -= r.cost;
+  S.research[id] = true;
+  toast(`🔬 Researched: ${r.name}`, true);
+  checkAchievements();
+  renderAll();
+  save();
 }
 
 /* ============ HELPERS ============ */
@@ -482,6 +606,17 @@ function renderBunny() {
   applySkinImg();
   $('bunny-title').textContent = SKINS.find(s => s.id === S.activeSkin).name;
 }
+function renderStreakChip() {
+  const chip = $('streak-chip');
+  const s = S.clickStreak || 0;
+  chip.classList.toggle('hidden', s < 5);
+  if (s < 5) return;
+  $('streak-count').textContent = s;
+  $('streak-bonus').textContent = '+' + (s - 1) + '%';
+  chip.classList.toggle('tier-2',   s >= 25 && s < 50);
+  chip.classList.toggle('tier-3',   s >= 50 && s < 100);
+  chip.classList.toggle('tier-max', s >= 100);
+}
 function renderHelperStrip() {
   const strip = $('helpers-strip');
   const owned = HELPERS.filter(h => (S.helpers[h.id] || 0) > 0);
@@ -493,7 +628,10 @@ function renderHelperStrip() {
     const chip = document.createElement('div');
     chip.className = 'helper-chip';
     chip.title = `${h.name} — ${S.helpers[h.id]} owned, +${fmt(h.perSec)}/sec each`;
-    chip.innerHTML = `<img src="${h.img}" alt=""><div class="count">${S.helpers[h.id]}</div>`;
+    const visual = h.img
+      ? `<img src="${h.img}" alt="">`
+      : `<div class="emoji-icon">${h.emoji}</div>`;
+    chip.innerHTML = `${visual}<div class="count">${S.helpers[h.id]}</div>`;
     strip.appendChild(chip);
   }
 }
@@ -534,9 +672,55 @@ function renderAgeProgress() {
 
 function renderTab(tabId) {
   if (tabId === 'tree')         renderSkillTree();
+  else if (tabId === 'research') renderResearchTree();
   else if (tabId === 'helpers') renderHelpers();
   else if (tabId === 'achievements') renderAchievements();
   else if (tabId === 'skins')   renderSkins();
+}
+function renderResearchTree() {
+  const pane = $('pane-research');
+  const haveResource = (S.res.research || 0) > 0 || ageIdx(S.currentAge) >= 1;
+  if (!haveResource) {
+    pane.innerHTML = `<div class="muted" style="padding:14px; text-align:center">🔬 Research is generated by Libraries, Universities and Labs.<br>Build one in the Skills tree to begin researching.</div>`;
+    return;
+  }
+  const tiers = [0,1,2,3,4,5];
+  const tierNames = ['Foundations','Classical','Renaissance','Industrial','Modern','Cosmic'];
+  let html = `<div class="muted" style="margin-bottom:10px">Have <b style="color:var(--accent)">🔬 ${fmt(S.res.research || 0)}</b> · spent on permanent meta-upgrades that stack with skills.</div>`;
+  for (const t of tiers) {
+    const list = RESEARCH.filter(r => r.tier === t);
+    if (list.length === 0) continue;
+    html += `<div class="age-group"><div class="age-group-header">Tier ${t} · ${tierNames[t]}</div>`;
+    for (const r of list) {
+      const owned = !!S.research[r.id];
+      const reqsOK = researchReqsMet(r);
+      const aff = !owned && reqsOK && (S.res.research || 0) >= r.cost;
+      let cls = 'skill';
+      if (owned) cls += ' owned';
+      else if (aff) cls += ' affordable';
+      if (!reqsOK) cls += ' locked';
+      const status = owned ? 'DONE ✓' : (reqsOK ? (aff ? 'BUY' : '') : '🔒');
+      const reqNote = !owned && r.requires && r.requires.length > 0 ? `<div class="desc" style="opacity:0.7">Requires: ${r.requires.map(id => RESEARCH.find(x => x.id === id).name).join(', ')}</div>` : '';
+      html += `<div class="${cls}" data-rs="${r.id}">
+        <div class="icon">${r.icon}</div>
+        <div class="body">
+          <div class="name">${r.name}</div>
+          <div class="desc">${r.desc}</div>
+          ${reqNote}
+          ${owned ? '' : `<div class="cost">🔬 ${fmt(r.cost)}</div>`}
+        </div>
+        <div class="status">${status}</div>
+      </div>`;
+    }
+    html += '</div>';
+  }
+  if (pane.dataset.sig !== html.length + '|' + Object.keys(S.research).length + '|' + Math.floor(S.res.research || 0)) {
+    pane.innerHTML = html;
+    pane.dataset.sig = html.length + '|' + Object.keys(S.research).length + '|' + Math.floor(S.res.research || 0);
+    pane.querySelectorAll('.skill.affordable').forEach(div => {
+      div.addEventListener('click', () => buyResearch(div.dataset.rs));
+    });
+  }
 }
 
 function renderSkillTree() {
@@ -599,8 +783,11 @@ function renderHelpers() {
       const owned = S.helpers[h.id] || 0;
       const cost = helperBuyCost(h);
       const aff = S.res.berries >= cost;
+      const visual = h.img
+        ? `<img src="${h.img}" alt="">`
+        : `<span style="font-size:1.6em">${h.emoji}</span>`;
       html += `<div class="entry${aff ? ' affordable' : ''}">
-        <div class="icon"><img src="${h.img}" alt=""></div>
+        <div class="icon">${visual}</div>
         <div class="body">
           <div class="name">${h.name} <span style="color:var(--fg-3); font-weight:500">×${owned}</span></div>
           <div class="desc">+${fmt(h.perSec)}/sec each · Total +${fmt(owned * h.perSec)}/sec</div>
@@ -713,6 +900,7 @@ function buildDebugGrid() {
   // Actions
   const actions = document.createElement('div');
   actions.innerHTML = `<hr><button data-act="all-skills">Learn all skills</button>
+    <button data-act="all-research">Buy all research</button>
     <button data-act="all-helpers">+10 of every helper</button>
     <button data-act="all-achs">Unlock all achievements</button>
     <button data-act="all-skins">Unlock all skins</button>
@@ -731,6 +919,7 @@ function buildDebugGrid() {
     btn.addEventListener('click', () => {
       const a = btn.dataset.act;
       if (a === 'all-skills') { for (const sk of SKILLS) S.skills[sk.id] = true; }
+      else if (a === 'all-research') { for (const r of RESEARCH) S.research[r.id] = true; }
       else if (a === 'all-helpers') { for (const h of HELPERS) S.helpers[h.id] = (S.helpers[h.id] || 0) + 10; }
       else if (a === 'all-achs') { for (const ach of ACHS) S.achievements[ach.id] = true; }
       else if (a === 'all-skins') { for (const s of SKINS) S.unlockedSkins[s.id] = true; }
@@ -752,10 +941,12 @@ function tick() {
   const now = Date.now();
   const dt = Math.min(1, (now - lastTick) / 1000);
   lastTick = now;
+  // Click streak decay if you stop clicking
+  if (S.clickStreak > 0 && Date.now() - (S.lastClickAt || 0) > STREAK_WINDOW_MS) S.clickStreak = 0;
   // Berries from passive sources
   S.res.berries += getPerSec() * dt;
   // Other resource generation
-  for (const r of ['bronze','iron','gold','coal','electricity','fuel','quarks']) {
+  for (const r of ['bronze','iron','gold','coal','electricity','fuel','quarks','research']) {
     const rate = getResPerSec(r === 'electricity' ? 'watts' : r);
     if (rate > 0) S.res[r] += rate * dt;
   }
@@ -763,6 +954,7 @@ function tick() {
   renderResources();
   $('per-click').textContent = '+' + fmt(getPerClick());
   $('per-sec').textContent = '+' + fmt(getPerSec());
+  renderStreakChip();
   renderAgeProgress();
   checkAchievements();
 }
@@ -787,8 +979,9 @@ async function importSave() {
   try {
     const parsed = JSON.parse(atob(code.trim()));
     S = Object.assign(defaultState(), parsed);
-    S.res = Object.assign({ berries: 0, stone: 0, bronze: 0, iron: 0, gold: 0, coal: 0, electricity: 0, fuel: 0, quarks: 0 }, parsed.res || {});
+    S.res = Object.assign({ berries: 0, stone: 0, bronze: 0, iron: 0, gold: 0, coal: 0, electricity: 0, fuel: 0, quarks: 0, research: 0 }, parsed.res || {});
     S.skills = parsed.skills || {};
+    S.research = parsed.research || {};
     S.helpers = parsed.helpers || {};
     S.achievements = parsed.achievements || {};
     S.unlockedSkins = Object.assign({ default: true }, parsed.unlockedSkins || {});
