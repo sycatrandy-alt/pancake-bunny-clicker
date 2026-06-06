@@ -2561,55 +2561,99 @@ function buyPart(p) {
   save();
 }
 
+// Idempotent Parts Lab render — structure rebuilt only when parts-built count
+// or tier-unlock state changes; per-render we only flip affordability classes
+// and update the summary text. This stops the rapid hover/unhover flicker
+// caused by previously wiping innerHTML 10×/sec while the user hovered cards.
 function renderPartsModal() {
   if ($('parts-modal').classList.contains('hidden')) return;
-  const built = partsBuiltCount();
-  const wallet = [
-    `<b>${fmt(state.quarks)}</b> ⚛️`,
-    (state.antimatter > 0 || tierBuiltCount(1) >= 25) ? `<b>${fmt(state.antimatter)}</b> 🟣` : '',
-    (state.singularity > 0 || tierBuiltCount(2) >= 25) ? `<b>${fmt(state.singularity)}</b> 🕳️` : '',
-  ].filter(Boolean).join(' · ');
-  $('parts-summary').innerHTML =
-    `<div><b>${built}</b> / ${PARTS_TARGET} parts built</div>` +
-    `<div style="margin-top:2px">${wallet}</div>` +
-    `<div class="muted" style="margin-top:4px">+${getQuarksPerClick()} quarks per accelerator click</div>`;
   const list = $('parts-list');
-  list.innerHTML = '';
-  const tiers = [
-    { id: 1, name: '🧰 Tier 1 · Basic Components' },
-    { id: 2, name: '❄️ Tier 2 · Cryo Components' },
-    { id: 3, name: '☀️ Tier 3 · Beam Components' },
-    { id: 4, name: '🌌 Tier 4 · Final Assembly' },
-  ];
-  for (const tier of tiers) {
-    const unlocked = tierUnlocked(tier.id);
-    const dataExists = accelParts.some(p => p.tier === tier.id);
-    const header = document.createElement('div');
-    header.className = 'parts-tier-header' + (unlocked ? '' : ' locked');
-    let label = tier.name;
-    if (!dataExists) label += ' · coming in a future build';
-    else if (!unlocked) label += ` · finish Tier ${tier.id - 1} to unlock`;
-    else label += ` · ${tierBuiltCount(tier.id)} / 25`;
-    header.textContent = label;
-    list.appendChild(header);
-    if (!unlocked || !dataExists) continue;
-    for (const p of accelParts.filter(x => x.tier === tier.id)) {
-      const owned = !!state.accelParts[p.id];
-      const affordable = !owned && canAffordAccelCost(p.cost);
-      const card = document.createElement('div');
-      card.className = 'part-card ' + (owned ? 'built' : (affordable ? 'affordable' : 'unaffordable'));
-      card.innerHTML = `
-        <div class="picon">${p.icon}</div>
-        <div class="body">
-          <div class="pname">${p.name}</div>
-          <div class="pdesc">${p.desc}</div>
-          ${owned ? '' : `<div class="pcost">${accelCostString(p.cost)}</div>`}
-        </div>
-        <div class="pstatus">${owned ? 'BUILT ✓' : ''}</div>
-      `;
-      if (!owned) card.addEventListener('click', () => buyPart(p));
-      list.appendChild(card);
+  const summary = $('parts-summary');
+  const built = partsBuiltCount();
+
+  // ---- Cheap: summary text (idempotent) ----
+  const summaryHtml =
+    `<div><b>${built}</b> / ${PARTS_TARGET} parts built</div>` +
+    `<div style="margin-top:2px">` +
+      `<b>${fmt(state.quarks)}</b> ⚛️` +
+      ((state.antimatter > 0 || tierBuiltCount(1) >= 25) ? ` · <b>${fmt(state.antimatter)}</b> 🟣` : '') +
+      ((state.singularity > 0 || tierBuiltCount(2) >= 25) ? ` · <b>${fmt(state.singularity)}</b> 🕳️` : '') +
+    `</div>` +
+    `<div class="muted" style="margin-top:4px">+${getQuarksPerClick()} quarks per accelerator click</div>`;
+  if (summary.dataset.last !== summaryHtml) {
+    summary.innerHTML = summaryHtml;
+    summary.dataset.last = summaryHtml;
+  }
+
+  // ---- Structure signature: rebuild only when topology actually changes ----
+  const structSig =
+    built + '|' +
+    tierBuiltCount(1) + '|' +
+    tierBuiltCount(2) + '|' +
+    tierBuiltCount(3) + '|' +
+    tierBuiltCount(4) + '|' +
+    (tierUnlocked(1) ? 'A' : 'a') +
+    (tierUnlocked(2) ? 'B' : 'b') +
+    (tierUnlocked(3) ? 'C' : 'c') +
+    (tierUnlocked(4) ? 'D' : 'd');
+
+  if (list.dataset.struct !== structSig) {
+    list.dataset.struct = structSig;
+    list.innerHTML = '';
+    const tiers = [
+      { id: 1, name: '🧰 Tier 1 · Basic Components' },
+      { id: 2, name: '❄️ Tier 2 · Cryo Components' },
+      { id: 3, name: '☀️ Tier 3 · Beam Components' },
+      { id: 4, name: '🌌 Tier 4 · Final Assembly' },
+    ];
+    for (const tier of tiers) {
+      const unlocked = tierUnlocked(tier.id);
+      const dataExists = accelParts.some(p => p.tier === tier.id);
+      const header = document.createElement('div');
+      header.className = 'parts-tier-header' + (unlocked ? '' : ' locked');
+      let label = tier.name;
+      if (!dataExists) label += ' · coming in a future build';
+      else if (!unlocked) label += ` · finish Tier ${tier.id - 1} to unlock`;
+      else label += ` · ${tierBuiltCount(tier.id)} / 25`;
+      header.textContent = label;
+      list.appendChild(header);
+      if (!unlocked || !dataExists) continue;
+      for (const p of accelParts.filter(x => x.tier === tier.id)) {
+        const owned = !!state.accelParts[p.id];
+        const affordable = !owned && canAffordAccelCost(p.cost);
+        const card = document.createElement('div');
+        card.className = 'part-card ' + (owned ? 'built' : (affordable ? 'affordable' : 'unaffordable'));
+        card.dataset.partId = p.id;
+        card.innerHTML = `
+          <div class="picon">${p.icon}</div>
+          <div class="body">
+            <div class="pname">${p.name}</div>
+            <div class="pdesc">${p.desc}</div>
+            ${owned ? '' : `<div class="pcost">${accelCostString(p.cost)}</div>`}
+          </div>
+          <div class="pstatus">${owned ? 'BUILT ✓' : ''}</div>
+        `;
+        if (!owned) {
+          // One-time click listener; safe because buyPart re-checks ownership.
+          card.addEventListener('click', () => {
+            const part = accelParts.find(x => x.id === card.dataset.partId);
+            if (part) buyPart(part);
+          });
+        }
+        list.appendChild(card);
+      }
     }
+  }
+
+  // ---- Cheap: per-card affordability class flip on each render ----
+  // Only flips a className when it actually changed — no DOM thrash, no hover loss.
+  for (const card of list.querySelectorAll('.part-card[data-part-id]')) {
+    const p = accelParts.find(x => x.id === card.dataset.partId);
+    if (!p) continue;
+    const owned = !!state.accelParts[p.id];
+    if (owned) continue;  // owned cards' look is locked-in until next structure rebuild
+    const cls = 'part-card ' + (canAffordAccelCost(p.cost) ? 'affordable' : 'unaffordable');
+    if (card.className !== cls) card.className = cls;
   }
 }
 

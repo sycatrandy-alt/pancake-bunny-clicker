@@ -1,6 +1,6 @@
 {
   "name": "pancake-bunny-clicker",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "description": "Pancake Bunny Clicker — desktop edition.",
   "main": "electron-main.js",
   "author": "Swifft",
