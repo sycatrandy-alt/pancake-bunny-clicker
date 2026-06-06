@@ -2292,6 +2292,22 @@ main {
   color: #1a0f00 !important;
   padding: 12px 24px !important;
 }
+#prestige-level-btn {
+  margin-top: 12px;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, #6a2e8e, #c870ff, #ffd97a) !important;
+  background-size: 200% 200%;
+  color: #fff;
+  border: 1px solid rgba(255,220,120,0.55);
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 1.05em;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  box-shadow: 0 4px 22px rgba(200,120,255,0.45);
+}
+#prestige-level-btn:hover { filter: brightness(1.12); }
+#prestige-level-btn:disabled:hover { filter: none; }
 #launch-btn { background: linear-gradient(135deg, var(--carrot), var(--butter)) !important; color: #1a0f00 !important; }
 #launch-mars-btn { background: linear-gradient(135deg, var(--berry), var(--carrot)) !important; color: #fff !important; }
 

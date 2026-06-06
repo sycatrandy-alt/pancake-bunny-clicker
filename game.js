@@ -71,6 +71,12 @@ const clickUpgrades = [
   { id: 'cu_i1', tier: 'invincible', icon: '🥊', name: 'Viltrum Strength', desc: '+150,000 per click',   baseCost: 5e10,  growth: 1.45, power: 150000,    max: 30, requires: ['dimension_invincible'] },
   { id: 'cu_i2', tier: 'invincible', icon: '🔥', name: 'Heat Vision',      desc: '+500,000 per click',   baseCost: 4e11,  growth: 1.48, power: 500000,    max: 30, requires: ['dimension_invincible'] },
   { id: 'cu_i3', tier: 'invincible', icon: '🛫', name: 'Flight Punch',     desc: '+2,000,000 per click', baseCost: 3e12,  growth: 1.50, power: 2000000,   max: 25, requires: ['dimension_invincible'] },
+  // --- PRESTIGE-LOCKED ---
+  { id: 'cu_p1', tier: 'prestige', icon: '⭐', name: 'Ascended Strike',  desc: '+1M per click. Prestige-tier.',     baseCost: 5e9,  growth: 1.44, power: 1000000,   max: 40, requires: ['prestigeLv1'] },
+  { id: 'cu_p2', tier: 'prestige', icon: '🌟', name: 'Astral Punch',     desc: '+5M per click. Prestige Lv 2+.',    baseCost: 8e10, growth: 1.46, power: 5000000,   max: 35, requires: ['prestigeLv2'] },
+  { id: 'cu_p3', tier: 'prestige', icon: '💫', name: 'Empyrean Slam',    desc: '+25M per click. Prestige Lv 3+.',   baseCost: 1e12, growth: 1.48, power: 25000000,  max: 30, requires: ['prestigeLv3'] },
+  { id: 'cu_p4', tier: 'prestige', icon: '✨', name: 'Halo Crash',       desc: '+150M per click. Prestige Lv 5+.',  baseCost: 2e13, growth: 1.50, power: 150000000, max: 25, requires: ['prestigeLv5'] },
+  { id: 'cu_p5', tier: 'prestige', icon: '👼', name: 'Apotheosis',       desc: '+1B per click. Prestige Lv 7+.',    baseCost: 5e14, growth: 1.52, power: 1e9,       max: 20, requires: ['prestigeLv7'] },
   { id: 'cu_i4', tier: 'invincible', icon: '💨', name: 'Hypersonic Strike',desc: '+8,000,000 per click', baseCost: 2e13,  growth: 1.52, power: 8000000,   max: 25, requires: ['viltrumiteBiology'] },
   { id: 'cu_i5', tier: 'invincible', icon: '🌋', name: 'World Breaker',    desc: '+40,000,000 per click',baseCost: 2e14,  growth: 1.55, power: 40000000,  max: 20, requires: ['viltrumiteBiology'] },
 ];
@@ -116,6 +122,12 @@ const autoUpgrades = [
   { id: 'au_i3', tier: 'invincible', icon: '🤖', name: 'Reanimen Bot',    desc: '+3,000,000/sec',  baseCost: 4e12,  growth: 1.50, power: 3000000,   max: 25, requires: ['dimension_invincible'] },
   { id: 'au_i4', tier: 'invincible', icon: '🦁', name: 'Battle Beast Cub',desc: '+12,000,000/sec', baseCost: 3e13,  growth: 1.52, power: 12000000,  max: 25, requires: ['scourgeVirus'] },
   { id: 'au_i5', tier: 'invincible', icon: '👽', name: 'Allen the Alien', desc: '+60,000,000/sec', baseCost: 3e14,  growth: 1.55, power: 60000000,  max: 20, requires: ['scourgeVirus'] },
+  // --- PRESTIGE-LOCKED ---
+  { id: 'au_p1', tier: 'prestige', icon: '⭐', name: 'Star Sprite',   desc: '+800K/sec. Prestige-tier.',  baseCost: 6e9,  growth: 1.44, power: 800000,    max: 45, requires: ['prestigeLv1'] },
+  { id: 'au_p2', tier: 'prestige', icon: '🌟', name: 'Astral Owl',    desc: '+4M/sec. Prestige Lv 2+.',   baseCost: 1e11, growth: 1.46, power: 4000000,   max: 40, requires: ['prestigeLv2'] },
+  { id: 'au_p3', tier: 'prestige', icon: '💫', name: 'Comet Cat',     desc: '+20M/sec. Prestige Lv 3+.',  baseCost: 1.5e12,growth: 1.48, power: 20000000,  max: 35, requires: ['prestigeLv3'] },
+  { id: 'au_p4', tier: 'prestige', icon: '✨', name: 'Angel Bunny',   desc: '+120M/sec. Prestige Lv 5+.', baseCost: 3e13, growth: 1.50, power: 120000000, max: 30, requires: ['prestigeLv5'] },
+  { id: 'au_p5', tier: 'prestige', icon: '👼', name: 'Seraphim',      desc: '+800M/sec. Prestige Lv 7+.', baseCost: 7e14, growth: 1.52, power: 8e8,       max: 25, requires: ['prestigeLv7'] },
 ];
 
 const upgradeTiers = [
@@ -125,6 +137,7 @@ const upgradeTiers = [
   { id: 'glacio',    name: '🧊 Glacio' },
   { id: 'cosmic',    name: '🌌 Cosmic' },
   { id: 'invincible',name: '🌀 Invincible' },
+  { id: 'prestige',  name: '⭐ Prestige' },
 ];
 
 // ====== CRAFTING ======
@@ -374,6 +387,47 @@ const recipes = [
     desc: 'Mars Garden +25% each.',
     cost: { carrots: 1500000, iron: 200 }, oneTime: false, maxOwned: 5,
     requires: ['terraforming'],
+  },
+
+  // --- MID-GAME NEW RECIPES (lunar/martian flavor) ---
+  {
+    id: 'lunarConservatory', icon: '🎼', name: 'Lunar Conservatory', category: 'farming',
+    desc: 'Moon farms +60% each, plays nice music.',
+    cost: { carrots: 6000000, moondust: 12 }, oneTime: false, maxOwned: 4,
+    requires: ['reachedMoon'],
+  },
+  {
+    id: 'redSpice', icon: '🌶️', name: 'Red Spice Refinery', category: 'industry',
+    desc: 'Click power +35% each.',
+    cost: { carrots: 10000000, iron: 150 }, oneTime: false, maxOwned: 6,
+    requires: ['reachedMars'],
+  },
+  {
+    id: 'omniwave', icon: '📶', name: 'Omniwave Tower', category: 'science',
+    desc: '+12 research/sec each.',
+    cost: { carrots: 25000000, iron: 350, fuel: 200 }, oneTime: false, maxOwned: 5,
+    requires: ['quantumComputing'],
+  },
+
+  // --- PRESTIGE-LOCKED RECIPES ---
+  {
+    id: 'ascensionShrine', icon: '⭐', name: 'Ascension Shrine', category: 'science',
+    desc: '+200% global multiplier. Permanent. Unlocked at Prestige Lv 1.',
+    cost: { carrots: 1e10, iron: 2000, research: 5000 }, oneTime: true,
+    requires: ['prestigeLv1'],
+    onCraft: () => { state.crafted.ascensionShrine = true; toast('⭐ Ascension Shrine consecrated!', true); },
+  },
+  {
+    id: 'astralAviary', icon: '🌟', name: 'Astral Aviary', category: 'farming',
+    desc: 'Helpers +100% each. Prestige Lv 2+.',
+    cost: { carrots: 1e11, iron: 6000 }, oneTime: false, maxOwned: 4,
+    requires: ['prestigeLv2'],
+  },
+  {
+    id: 'haloEngine', icon: '✨', name: 'Halo Engine', category: 'industry',
+    desc: '+50% click power AND +50% global per copy. Prestige Lv 3+.',
+    cost: { carrots: 5e12, iron: 20000, fuel: 5000 }, oneTime: false, maxOwned: 5,
+    requires: ['prestigeLv3'],
   },
 
   // --- PETS ---
@@ -695,6 +749,12 @@ const achievements = [
   { id: 'a48', icon: '🐶', name: 'Butter Dawg',    desc: 'Unlock the Butter Dawg skin',       check: s => s.unlockedSkins && s.unlockedSkins.butterDawg },
   { id: 'a49', icon: '🧊', name: 'Frostbite',      desc: 'Reach Glacio',                      check: s => !!s.reachedGlacio },
   { id: 'a50', icon: '🚀', name: 'Space Bunny',    desc: 'Unlock the Space Bunny skin',       check: s => s.unlockedSkins && s.unlockedSkins.spaceBunny },
+  // Prestige achievements
+  { id: 'a51', icon: '⭐', name: 'Ascended',       desc: 'Reach Prestige Level 1',            check: s => (s.prestigeLevel || 0) >= 1 },
+  { id: 'a52', icon: '🌟', name: 'Twice Ascended', desc: 'Reach Prestige Level 3',            check: s => (s.prestigeLevel || 0) >= 3 },
+  { id: 'a53', icon: '✨', name: 'Halo Bearer',    desc: 'Reach Prestige Level 5',            check: s => (s.prestigeLevel || 0) >= 5 },
+  { id: 'a54', icon: '👼', name: 'Apotheosis',     desc: 'Reach Prestige Level 10',           check: s => (s.prestigeLevel || 0) >= 10 },
+  { id: 'a55', icon: '⭐', name: 'Reborn × 10',    desc: 'Rebirth 10 times (lifetime)',       check: s => (s.prestigeCount || 0) + ((s.prestigesTotal || 0) * 100) >= 10 || s.prestigeCount >= 10 },
   // Phase 4 — Invincible DLC
   { id: 'a41', icon: '🐱', name: 'Cat Army',       desc: 'Hire 70 Guard Cats',                check: s => (s.crafted.catGuard || 0) >= 70 },
   { id: 'a42', icon: '🤖', name: 'Robo Force',     desc: 'Build the Robo Cat Lab',            check: s => !!s.crafted.roboCatLab },
@@ -763,6 +823,11 @@ const defaultState = () => ({
   raiders: [], nextRaidAt: 0,
   raidsDefeated: 0, raidsFailed: 0, carrotsStolen: 0,
   starFragments: 0, prestigeCount: 0,
+  // ===== PRESTIGE (different from Rebirth) =====
+  // prestigeLevel is the meta-progression number; it grows by spending Rebirths.
+  // Each level grants a permanent +50% global multiplier and unlocks new content.
+  prestigeLevel: 0,
+  prestigesTotal: 0,        // lifetime count, never resets
   strands: { red: 0, blue: 0, green: 0, yellow: 0, mars: 0, glory: 0 },
   powers: {},
   buddy: { unlocked: false, level: 1, mission: null, missionEndsAt: 0, notifiedComplete: false },
@@ -825,7 +890,7 @@ function mergeState(parsed) {
   // Clear any past-due raid timer so player gets a grace period after long breaks
   fresh.nextRaidAt = 0;
   // Numeric safety against corrupted saves
-  for (const k of ['carrots','totalCarrots','lifetimeCarrots','scrap','fuel','iron','research','moondust','starFragments','prestigeCount','rocketProgress','raidsDefeated','raidsFailed','carrotsStolen','totalClicks','goldenClaimed','nextGoldenAt','frenzyUntil','clickStreak','bestStreak','lastClickAt','nextRaidAt','quarks','antimatter','singularity','accelClicks','nextOmniManAt','omniManDefeated','atoms']) {
+  for (const k of ['carrots','totalCarrots','lifetimeCarrots','scrap','fuel','iron','research','moondust','starFragments','prestigeCount','rocketProgress','raidsDefeated','raidsFailed','carrotsStolen','totalClicks','goldenClaimed','nextGoldenAt','frenzyUntil','clickStreak','bestStreak','lastClickAt','nextRaidAt','quarks','antimatter','singularity','accelClicks','nextOmniManAt','omniManDefeated','atoms','prestigeLevel','prestigesTotal']) {
     if (typeof fresh[k] !== 'number' || !isFinite(fresh[k]) || fresh[k] < 0) fresh[k] = 0;
   }
   if (typeof fresh.buddy.level !== 'number' || fresh.buddy.level < 1) fresh.buddy.level = 1;
@@ -886,6 +951,9 @@ function getGlobalMultiplier() {
   if (state.reachedMars) m *= 1.60;
   m *= (1 + Math.log10(1 + state.prestigeCount) * 0.12);
   m *= (1 + state.starFragments * 0.025);
+  m *= getPrestigeBonus();  // Prestige level meta-bonus (+50% per level, ×10 at lv 10)
+  if (state.crafted.ascensionShrine) m *= 3.0;
+  m *= (1 + (state.crafted.haloEngine || 0) * 0.50);
   if (hasPower('smart')) m *= 1.20;
   if (hasPower('redGiant')) m *= 2.00;
   if (hasPower('beyondMortal')) m *= 6.00;
@@ -951,6 +1019,8 @@ function getPerClick() {
   if (hasResearch('viltrumiteBiology')) mult *= 2.00;
   if (state.crafted.invincibleSuit) mult *= 6.00;
   mult *= (1 + (state.crafted.viltrumiteEmbassy || 0) * 0.50);
+  mult *= (1 + (state.crafted.redSpice || 0) * 0.35);
+  mult *= (1 + (state.crafted.haloEngine || 0) * 0.50);
   if (Date.now() < state.frenzyUntil) mult *= 2;   // Pancake Frenzy
   return Math.floor(base * mult);
 }
@@ -1006,6 +1076,7 @@ function getPerSecBreakdown() {
   out.farms *= (1 + (state.crafted.wateringCan || 0) * 0.20);
   out.farms *= (1 + (state.crafted.beeHive || 0) * 0.15);
   out.farms *= (1 + (state.crafted.craterDome || 0) * 0.30);
+  out.farms *= (1 + (state.crafted.lunarConservatory || 0) * 0.60);
   out.farms *= (1 + (state.crafted.polarCapHarvester || 0) * 0.35);
   out.buddy = state.buddy.unlocked ? state.buddy.level * 25 : 0;
   let mult = getGlobalMultiplier();
@@ -1025,6 +1096,7 @@ function getPerSec() {
     helperBase += owned * u.power * getMasteryMult(owned);
   }
   helperBase *= getAutoBuffMultiplier();
+  helperBase *= (1 + getPrestigeHelperBonus());  // Prestige Lv 5+ doubles helpers
 
   let base = helperBase;
   // Farms (not buffed by auto-helper synergy)
@@ -1041,6 +1113,7 @@ function getPerSec() {
   farmTotal *= (1 + (state.crafted.beeHive || 0) * 0.15);
   // Moon Crater Dome boosts Moon Farms portion (applied to total — close enough)
   farmTotal *= (1 + (state.crafted.craterDome || 0) * 0.30);
+  farmTotal *= (1 + (state.crafted.lunarConservatory || 0) * 0.60);
   // Mars Polar Cap Harvester boosts all Mars farms
   farmTotal *= (1 + (state.crafted.polarCapHarvester || 0) * 0.35);
   base += farmTotal;
@@ -1053,6 +1126,7 @@ function getPerSec() {
   if (hasResearch('martianMagnetism')) mult *= 1.40;
   if (hasResearch('scourgeVirus')) mult *= 2.00;
   if (state.crafted.atomEveReactor) mult *= 3.00;
+  mult *= (1 + (state.crafted.astralAviary || 0) * 1.00);
   mult *= (1 + (state.crafted.reanimenLab || 0) * 0.40);
   // Robot Production Line boost scoped only to the Reanimen Bot helper output
   // (handled implicitly because the Bot is part of helperBase; we apply a flat boost here)
@@ -1091,13 +1165,58 @@ function getResearchPerSec() {
   base += (state.crafted.particleCollider || 0) * 1;
   base += (state.crafted.gdaOutpost || 0) * 2;
   base += (state.crafted.lunarObservatory || 0) * 3;
+  base += (state.crafted.omniwave || 0) * 12;
   base += (state.crafted.phobosOutpost || 0) * 10 * (hasResearch('phobosSurvey') ? 2 : 1);
   base *= (1 + (state.crafted.maulerVat || 0) * 0.25);
   return base;
 }
-function prestigeMaxBonus() { return state.prestigeCount * 5; }
+function prestigeMaxBonus() { return state.prestigeCount * 5 + (state.prestigeLevel || 0) * 25; }
 function getUpgradeMax(u) { return u.max + prestigeMaxBonus(); }
 function getRecipeMax(r) { return r.maxOwned ? r.maxOwned + prestigeMaxBonus() : r.maxOwned; }
+
+// ====== PRESTIGE (different from Rebirth) ======
+// Cost in rebirths to ascend to the next prestige level. Triangular-ish growth.
+function prestigeLevelCost(level) {
+  // To reach lvl 1 needs 10 rebirths; lvl 2 needs 25 total; lvl 3 → 50; lvl 4 → 100; lvl 5 → 175 …
+  if (level <= 0) return 10;
+  const arr = [10, 25, 50, 100, 175, 280, 425, 625, 900, 1300, 1850, 2600];
+  if (level - 1 < arr.length) return arr[level - 1];
+  return arr[arr.length - 1] + (level - arr.length) * 800;
+}
+function canPrestige() {
+  return state.prestigeCount >= prestigeLevelCost(state.prestigeLevel + 1 - 1);
+}
+// What state.prestigeLevel grants:
+//   +50% global multiplier per level (applied in getGlobalMultiplier)
+//   +25 to every upgrade/recipe max (applied in prestigeMaxBonus above)
+//   At lv 1: unlock 'Ascended Bunny' skin (handled in skin condition below)
+//   At lv 2: unlock prestige-tier upgrades (handled via 'prestigeLevel>=N' virtual requires)
+//   At lv 3: +5% crit chance baseline
+//   At lv 5: helpers ×2 baseline
+//   At lv 10: everything ×10 baseline (it's earned by then)
+function getPrestigeBonus() {
+  const L = state.prestigeLevel || 0;
+  let mult = 1 + L * 0.5;
+  if (L >= 10) mult *= 10;
+  return mult;
+}
+function getPrestigeCritBonus() { return (state.prestigeLevel || 0) >= 3 ? 0.05 : 0; }
+function getPrestigeHelperBonus() { return (state.prestigeLevel || 0) >= 5 ? 1.0 : 0; }
+function doPrestigeLevel() {
+  if (!canPrestige()) {
+    toast(`Need ${fmt(prestigeLevelCost(state.prestigeLevel + 1 - 1) - state.prestigeCount)} more Rebirths`);
+    return;
+  }
+  const cost = prestigeLevelCost(state.prestigeLevel + 1 - 1);
+  if (!confirm(`Ascend to Prestige ${state.prestigeLevel + 1}?\n\nSpends ${cost} Rebirths.\nYou KEEP: Star Bits, achievements, lifetime stats, this Prestige progress.\nYou LOSE: nothing else right now — the Rebirth count just rewinds.\n\nGrants permanently:\n• +50% global multiplier per Prestige level\n• +25 to every upgrade/recipe max per level\n• Special unlocks at levels 1, 2, 3, 5, and 10`)) return;
+  state.prestigeCount -= cost;
+  state.prestigeLevel = (state.prestigeLevel || 0) + 1;
+  state.prestigesTotal = (state.prestigesTotal || 0) + 1;
+  toast(`⭐ ASCENDED to Prestige ${state.prestigeLevel}! Power +${(getPrestigeBonus() - 1) * 100}%`, true);
+  checkAchievements();
+  render();
+  save();
+}
 
 function getCostFor(u) {
   const owned = state.upgrades[u.id] || 0;
@@ -1222,6 +1341,8 @@ function render() {
   $('pill-iron').classList.toggle('hidden', !state.reachedMoon);
   $('pill-moondust').classList.toggle('hidden', !state.reachedMoon);
   $('pill-stars').classList.toggle('hidden', state.starFragments === 0 && state.prestigeCount === 0);
+  $('pill-prestige').classList.toggle('hidden', !(state.prestigeLevel > 0) && state.prestigeCount < 5);
+  $('prestigeLevel').textContent = String(state.prestigeLevel || 0);
   const glory = (state.strands && state.strands.glory) || 0;
   $('pill-glory').classList.toggle('hidden', glory === 0 && state.omniManDefeated === 0);
   if (glory >= 0) $('glory').textContent = fmt(glory);
@@ -1256,6 +1377,22 @@ function render() {
   const pBtn = $('prestige-btn');
   pBtn.classList.toggle('hidden', !showPrestige);
   if (showPrestige) pBtn.textContent = `✨ Rebirth (+${fmt(prestigeReward())} ✨) ✨`;
+  // Prestige (Ascend) button — appears once you have enough Rebirths
+  const plBtn = $('prestige-level-btn');
+  if (plBtn) {
+    const need = prestigeLevelCost(state.prestigeLevel + 1 - 1);
+    const showAscend = state.prestigeCount >= Math.floor(need * 0.6);  // start showing at 60% so you can see it coming
+    plBtn.classList.toggle('hidden', !showAscend);
+    if (showAscend) {
+      const ready = state.prestigeCount >= need;
+      plBtn.textContent = ready
+        ? `⭐ ASCEND to Prestige ${state.prestigeLevel + 1} ⭐  (${need} ↪ ${state.prestigeCount})`
+        : `⭐ Prestige ${state.prestigeLevel + 1}  (${state.prestigeCount} / ${need} Rebirths)`;
+      plBtn.disabled = !ready;
+      plBtn.style.opacity = ready ? 1 : 0.55;
+      plBtn.style.cursor = ready ? 'pointer' : 'not-allowed';
+    }
+  }
 
   if (state.crafted.dnaSequencer) renderStrandMini();
   if (state.buddy.unlocked) renderBuddyInline();
@@ -1564,6 +1701,11 @@ function meetsRequires(reqs) {
     if (r === 'dimension_invincible' && state.dimension === 'invincible') continue;
     if (r === 'reachedGlacio' && state.reachedGlacio) continue;
     if (r === 'quantumVisited' && state.dimensionsVisited && state.dimensionsVisited.quantum) continue;
+    // Prestige-level gates: 'prestigeLv1', 'prestigeLv2', ... 'prestigeLv10'
+    if (r.startsWith('prestigeLv')) {
+      const need = parseInt(r.slice('prestigeLv'.length), 10);
+      if (!isNaN(need) && (state.prestigeLevel || 0) >= need) continue;
+    }
     return false;
   }
   return true;
@@ -1747,6 +1889,10 @@ function prettyName(id) {
     dimension_invincible: 'Cross into the Invincible Dimension',
   };
   if (virtuals[id]) return virtuals[id];
+  if (id.startsWith('prestigeLv')) {
+    const n = parseInt(id.slice('prestigeLv'.length), 10);
+    if (!isNaN(n)) return `Reach Prestige Level ${n}`;
+  }
   const r = recipes.find(x => x.id === id);
   if (r) return r.name;
   const n = researchNodes.find(x => x.id === id);
@@ -2070,7 +2216,8 @@ function clickBunny(e) {
 
   let gain = getPerClick() * (1 + getStreakBonus());
   let lucky = false;
-  if (hasPower('lucky') && Math.random() < 0.05) { gain *= 5; lucky = true; }
+  const luckyChance = (hasPower('lucky') ? 0.05 : 0) + getPrestigeCritBonus();
+  if (luckyChance > 0 && Math.random() < luckyChance) { gain *= 5; lucky = true; }
   gain = Math.floor(gain);
   state.carrots += gain;
   state.totalCarrots += gain;
@@ -3311,6 +3458,7 @@ $('launch-glacio-btn').addEventListener('click', launchGlacio);
 $('quantum-btn').addEventListener('click', crossToQuantum);
 $('dimension-travel-btn').addEventListener('click', crossDimension);
 $('prestige-btn').addEventListener('click', doPrestige);
+$('prestige-level-btn').addEventListener('click', doPrestigeLevel);
 
 $('save-btn').addEventListener('click', () => { save(); toast('💾 Saved!'); });
 $('download-save-btn').addEventListener('click', () => {
