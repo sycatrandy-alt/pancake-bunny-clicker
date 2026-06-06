@@ -2455,3 +2455,46 @@ input:focus-visible,
   }
 }
 
+/* ===== Particle Accelerator: stop hover flicker ===== */
+/* Children of the calculator wrap should never catch hover events — the wrap
+   itself owns the whole click target. Decorative children with mouse-interactive
+   styles were causing rapid hover/unhover loops as their layout shifted after
+   each click triggered a re-render. */
+#accelerator-wrap .calc-body,
+#accelerator-wrap .calc-top,
+#accelerator-wrap .calc-display,
+#accelerator-wrap .calc-lcd,
+#accelerator-wrap .calc-lcd > *,
+#accelerator-wrap .calc-buttons,
+#accelerator-wrap .calc-btn,
+#accelerator-wrap .calc-brand,
+#accelerator-wrap .calc-model,
+#accelerator-wrap .calc-solar { pointer-events: none !important; }
+#accelerator-wrap { transition: none !important; }
+#accelerator-wrap:hover .calc-body { box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.6),
+    inset 0 -2px 0 rgba(0,0,0,0.3),
+    0 4px 14px rgba(0,0,0,0.6) !important; }
+/* Calm the LCD flash — gentler hue shift, no width changes */
+.calc-flash {
+  animation: lcdFlashCalm 0.18s ease-out !important;
+}
+@keyframes lcdFlashCalm {
+  0%   { filter: brightness(1.25); }
+  100% { filter: brightness(1.0);  }
+}
+/* Lock LCD-text typography so width is determined by the box, not the digits */
+#calc-lcd-text {
+  font-variant-numeric: tabular-nums !important;
+  font-feature-settings: "tnum" !important;
+  width: 100%;
+  text-align: right;
+}
+/* Stabilize the accelerator-rate row so its height never shifts */
+#accelerator-rate {
+  min-height: 1.4em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+

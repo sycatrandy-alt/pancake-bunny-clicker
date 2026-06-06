@@ -2613,22 +2613,26 @@ function renderPartsModal() {
   }
 }
 
+// Idempotent text setter: skips DOM writes when content hasn't changed.
+// This is what stops the rapid-rerender hover flicker on the Particle Accelerator.
+function _setTxt(el, val) { if (el && el.textContent !== val) el.textContent = val; }
 function renderAccelerator() {
   const has = !!state.crafted.particleAccelerator;
   $('accelerator-area').classList.toggle('hidden', !has);
   $('pill-quarks').classList.toggle('hidden', !has && state.quarks === 0);
   $('pill-antimatter').classList.toggle('hidden', state.antimatter === 0 && tierBuiltCount(1) < 25);
   $('pill-singularity').classList.toggle('hidden', state.singularity === 0 && tierBuiltCount(2) < 25);
-  $('quarks').textContent = fmt(state.quarks);
-  $('antimatter').textContent = fmt(state.antimatter);
-  $('singularity').textContent = fmt(state.singularity);
+  _setTxt($('quarks'), fmt(state.quarks));
+  _setTxt($('antimatter'), fmt(state.antimatter));
+  _setTxt($('singularity'), fmt(state.singularity));
   if (!has) return;
-  const lcd = $('calc-lcd-text');
-  if (lcd) lcd.textContent = fmt(state.quarks);
-  $('parts-built').textContent = partsBuiltCount();
+  _setTxt($('calc-lcd-text'), fmt(state.quarks));
+  _setTxt($('parts-built'), String(partsBuiltCount()));
   const pct = Math.min(100, (partsBuiltCount() / PARTS_TARGET) * 100);
-  $('parts-progress-fill').style.width = pct + '%';
-  $('accelerator-rate').textContent = `+${fmt(getQuarksPerClick())}/click · +${fmt(getQuarksPerSec())}/sec passive`;
+  const fill = $('parts-progress-fill');
+  const pctStr = pct + '%';
+  if (fill && fill.style.width !== pctStr) fill.style.width = pctStr;
+  _setTxt($('accelerator-rate'), `+${fmt(getQuarksPerClick())}/click · +${fmt(getQuarksPerSec())}/sec passive`);
 }
 
 function spawnFloater(wrap, fx, e, text, extraClass) {
